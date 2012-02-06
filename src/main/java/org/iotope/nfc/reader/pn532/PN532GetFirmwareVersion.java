@@ -42,8 +42,6 @@ public class PN532GetFirmwareVersion extends PN532AbstractCommand<PN532GetFirmwa
         buffer.put((byte) 0x02);
     }
  
-    public int getInstruction() { return 0x02; }
-
     public int getLength() {
         return 2;
     }

@@ -21,12 +21,25 @@
 
 package org.iotope.nfc.reader.pn532;
 
-public class PN532InRelease extends PN532AbstractCommand<PN532InRelease, PN532InReleaseResponse> {
-    
-    public PN532InRelease() {
-        super(PN532InReleaseResponse.class);
-    }
-    
-    public int getInstruction() { return 0x00; }
+import java.nio.ByteBuffer;
+
+public class PN532InRelease extends
+		PN532AbstractCommand<PN532InRelease, PN532InReleaseResponse> {
+
+	public PN532InRelease() {
+		super(PN532InReleaseResponse.class);
+	}
+
+	public void transfer(ByteBuffer buffer) {
+		buffer.put((byte) 0xD4);
+		buffer.put((byte) 0x52);
+		// *** Tg ***
+		buffer.put((byte) 0x00); // all targets for now
+	}
+
+	@Override
+	public int getLength() {
+		return 2 + 1;
+	}
 
 }

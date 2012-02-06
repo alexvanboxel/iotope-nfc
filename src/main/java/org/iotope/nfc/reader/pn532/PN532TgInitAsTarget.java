@@ -58,9 +58,6 @@ public class PN532TgInitAsTarget extends PN532AbstractCommand<PN532TgInitAsTarge
         buffer.put((byte) 0x00);
     }
     
-
-    public int getInstruction() { return 0x8C; }
-
     public int getLength() {
         return 2 + 1 + 6 + 18 + 10 + 2;
     }

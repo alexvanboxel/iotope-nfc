@@ -37,9 +37,17 @@ import org.iotope.util.IOUtil;
 public class PN532InDataExchange extends
 		PN532AbstractCommand<PN532InDataExchange, PN532InDataExchangeResponse> {
 
+	/**
+	 *  
+	 * @param target logical target
+	 * @param mi More Information
+	 * @param dataOut data
+	 */
 	public PN532InDataExchange(int target, boolean mi, byte[] dataOut) {
 		super(PN532InDataExchangeResponse.class);
 		this.dataOut = dataOut;
+		this.target = target;
+		this.mi = mi;
 	}
 
 	public void transfer(ByteBuffer buffer) {
@@ -55,11 +63,7 @@ public class PN532InDataExchange extends
 	}
 
 	public int getLength() {
-		return 2 + 1 + 1/* ? */+ dataOut.length;
-	}
-
-	public int getInstruction() {
-		return 0x40;
+		return 2 + 1 + dataOut.length;
 	}
 
 	private int target;

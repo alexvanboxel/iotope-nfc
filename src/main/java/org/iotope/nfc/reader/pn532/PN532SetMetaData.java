@@ -21,12 +21,20 @@
 
 package org.iotope.nfc.reader.pn532;
 
+import java.nio.ByteBuffer;
+
 public class PN532SetMetaData extends PN532AbstractCommand<PN532SetMetaData, PN532SetMetaDataResponse> {
     
     public PN532SetMetaData() {
         super(PN532SetMetaDataResponse.class);
     }
-    
-    public int getInstruction() { return 0x00; }
 
+	public void transfer(ByteBuffer buffer) {
+		throw new NoSuchMethodError("Not implemented");
+	}
+
+	@Override
+	public int getLength() {
+		throw new NoSuchMethodError("Not implemented");
+	}
 }

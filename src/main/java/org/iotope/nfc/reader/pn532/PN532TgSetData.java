@@ -42,6 +42,11 @@ public class PN532TgSetData extends
 		this.dataOut = dataOut;
 	}
 
+	public PN532TgSetData() {
+		super(PN532TgSetDataResponse.class);
+		this.dataOut = new byte[0];
+	}
+
 	public void transfer(ByteBuffer buffer) {
 		buffer.put((byte) 0xD4);
 		buffer.put((byte) 0x8E);
@@ -51,10 +56,6 @@ public class PN532TgSetData extends
 
 	public int getLength() {
 		return 2 + dataOut.length;
-	}
-
-	public int getInstruction() {
-		return 0x8E;
 	}
 
 	private byte[] dataOut;

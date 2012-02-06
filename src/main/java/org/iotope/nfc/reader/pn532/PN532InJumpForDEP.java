@@ -127,8 +127,7 @@ public class PN532InJumpForDEP extends PN532AbstractCommand<PN532InJumpForDEP, P
         if (passiveInitiatorData != null)
             buffer.put(passiveInitiatorData.b);
     }
-    public int getInstruction() { return 0x56; }
-   
+
     public int getLength() {
         return 2 + 3 + (passiveInitiatorData == null ? 0 : passiveInitiatorData.b.length);
     }
