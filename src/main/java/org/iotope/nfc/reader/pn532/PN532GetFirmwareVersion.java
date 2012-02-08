@@ -25,7 +25,7 @@ import java.nio.ByteBuffer;
 
 /**
  * <p>
- * The PN532 sends back the version of the embedded firmware
+ * Get the verion and capabilities of the embedded firmware.
  * </p>
  * 
  * @author Alex Van Boxel <alex@vanboxel.be>

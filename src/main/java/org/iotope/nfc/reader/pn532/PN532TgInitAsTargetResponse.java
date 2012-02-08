@@ -21,8 +21,18 @@
 
 package org.iotope.nfc.reader.pn532;
 
-public class PN532TgInitAsTargetResponse extends PN532AbstractResponse {
+import java.nio.ByteBuffer;
+
+public class PN532TgInitAsTargetResponse extends PN532AbstractResponse<PN532TgInitAsTarget> {
     
-    public PN532TgInitAsTargetResponse() {
+    public PN532TgInitAsTargetResponse(PN532TgInitAsTarget command, ByteBuffer buffer) {
+        super(command, buffer);
+        checkInstruction(0x8D, buffer.get());
+        mode = buffer.get();
+        initiatorCommand = new byte[buffer.remaining()];
+        buffer.get(initiatorCommand);
     }
+    
+    private int mode;
+    private byte[] initiatorCommand;
 }

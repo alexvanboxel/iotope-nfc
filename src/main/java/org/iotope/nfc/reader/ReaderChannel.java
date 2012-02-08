@@ -32,43 +32,42 @@ import org.iotope.util.IOUtil;
 
 @SuppressWarnings("restriction")
 public class ReaderChannel {
-
-	private ReaderConnection connection;
-	private CardChannel channel;
-	private ByteBuffer response = ByteBuffer.allocate(512);
-	private int reslen;
-
-	public ReaderChannel(ReaderConnection connection, CardChannel channel) {
-		this.connection = connection;
-		this.channel = channel;
-		// transmit(builder.getFirmwareVersion());
-		this.connection.setMetaData(new String(response.array(), 0, reslen));
-	}
-
-	private ByteBuffer out = ByteBuffer.allocate(1024);
-
-	public <RESPONSE extends ReaderResponse> RESPONSE transmit(
-			ReaderCommand readerCommand) throws Exception {
-
-		// ACR122
-		byte[] header = { (byte) 0xff, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
-		out.put(header);
-		out.put((byte) readerCommand.getLength());
-		readerCommand.transfer(out);
-
-		try {
-			out.flip();
-			CommandAPDU apdu = new CommandAPDU(out);
-			ResponseAPDU resp = channel.transmit(apdu);
-			out.clear();
-			ByteBuffer in = ByteBuffer.wrap(resp.getBytes());
-			// check response !!!
-
-			System.out.println("<<<RAW<<< " + IOUtil.hex(resp.getBytes()));
-			return (RESPONSE) readerCommand.receive(in);
-		} catch (CardException e) {
-			throw new Exception(e.getMessage());
-		}
-	}
-
+    
+    private ReaderConnection connection;
+    private CardChannel channel;
+    private ByteBuffer response = ByteBuffer.allocate(512);
+    private int reslen;
+    
+    public ReaderChannel(ReaderConnection connection, CardChannel channel) {
+        this.connection = connection;
+        this.channel = channel;
+        // transmit(builder.getFirmwareVersion());
+        this.connection.setMetaData(new String(response.array(), 0, reslen));
+    }
+    
+    private ByteBuffer out = ByteBuffer.allocate(1024);
+    
+    public <RESPONSE extends ReaderResponse> RESPONSE transmit(ReaderCommand readerCommand) throws Exception {
+        
+        // ACR122
+        byte[] header = { (byte) 0xff, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
+        out.put(header);
+        out.put((byte) readerCommand.getLength());
+        readerCommand.transfer(out);
+        
+        try {
+            out.flip();
+            CommandAPDU apdu = new CommandAPDU(out);
+            ResponseAPDU resp = channel.transmit(apdu);
+            out.clear();
+            ByteBuffer in = ByteBuffer.wrap(resp.getBytes());
+            // check response !!!
+            
+            System.out.println("<<<RAW<<< " + IOUtil.hex(resp.getBytes()));
+            return (RESPONSE) readerCommand.receive(in);
+        } catch (CardException e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+    
 }

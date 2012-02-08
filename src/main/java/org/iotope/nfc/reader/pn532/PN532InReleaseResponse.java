@@ -21,8 +21,17 @@
 
 package org.iotope.nfc.reader.pn532;
 
-public class PN532InReleaseResponse extends PN532AbstractResponse {
+import java.nio.ByteBuffer;
+
+import org.iotope.nfc.reader.pn532.struct.PN532Status;
+
+public class PN532InReleaseResponse extends PN532AbstractResponse<PN532InRelease> {
     
-    public PN532InReleaseResponse() {
+    public PN532InReleaseResponse(PN532InRelease command, ByteBuffer buffer) {
+        super(command, buffer);
+        checkInstruction(0x53, buffer.get());
+        status = new PN532Status(buffer);
     }
+    
+    PN532Status status;
 }

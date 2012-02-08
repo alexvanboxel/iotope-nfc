@@ -21,10 +21,12 @@
 
 package org.iotope.nfc.reader.pn532.struct;
 
+import java.nio.ByteBuffer;
+
 public final class PN532Status {
 
-	public PN532Status(int status) {
-		this.status = status;
+	public PN532Status(ByteBuffer buffer) {
+		this.status = buffer.get();
 	}
 
 	private int status;

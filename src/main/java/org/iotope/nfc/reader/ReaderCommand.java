@@ -25,14 +25,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 
 public interface ReaderCommand<COMMAND extends ReaderCommand, RESPONSE extends ReaderResponse> {
-
-	int getLength();
-
-	void transfer(ByteBuffer buffer);
-
-	RESPONSE receive(ByteBuffer buffer) throws SecurityException,
-			NoSuchMethodException, IllegalArgumentException,
-			InstantiationException, IllegalAccessException,
-			InvocationTargetException;
-
+    
+    int getLength();
+    
+    void transfer(ByteBuffer buffer);
+    
+    RESPONSE receive(ByteBuffer buffer) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException;
+    
 }

@@ -21,6 +21,17 @@
 
 package org.iotope.nfc.reader;
 
-public class AbstractResponse implements ReaderResponse {
-    
+public abstract class AbstractResponse<COMMAND extends ReaderCommand>
+		implements ReaderResponse<COMMAND> {
+
+	public AbstractResponse(COMMAND command) {
+		this.command = command;
+	}
+
+	@Override
+	public COMMAND getCommand() {
+		return command;
+	}
+
+	private COMMAND command;
 }

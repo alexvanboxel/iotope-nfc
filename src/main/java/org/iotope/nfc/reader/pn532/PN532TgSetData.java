@@ -34,29 +34,28 @@ import java.nio.ByteBuffer;
  * @author Alex Van Boxel <alex@vanboxel.be>
  * @see NXP PN532 User Manual - 7.3.17 TgSetData
  */
-public class PN532TgSetData extends
-		PN532AbstractCommand<PN532TgSetData, PN532TgSetDataResponse> {
-
-	public PN532TgSetData(byte[] dataOut) {
-		super(PN532TgSetDataResponse.class);
-		this.dataOut = dataOut;
-	}
-
-	public PN532TgSetData() {
-		super(PN532TgSetDataResponse.class);
-		this.dataOut = new byte[0];
-	}
-
-	public void transfer(ByteBuffer buffer) {
-		buffer.put((byte) 0xD4);
-		buffer.put((byte) 0x8E);
-		// *** DataOut ***
-		buffer.put(dataOut);
-	}
-
-	public int getLength() {
-		return 2 + dataOut.length;
-	}
-
-	private byte[] dataOut;
+public class PN532TgSetData extends PN532AbstractCommand<PN532TgSetData, PN532TgSetDataResponse> {
+    
+    public PN532TgSetData(byte[] dataOut) {
+        super(PN532TgSetDataResponse.class);
+        this.dataOut = dataOut;
+    }
+    
+    public PN532TgSetData() {
+        super(PN532TgSetDataResponse.class);
+        this.dataOut = new byte[0];
+    }
+    
+    public void transfer(ByteBuffer buffer) {
+        buffer.put((byte) 0xD4);
+        buffer.put((byte) 0x8E);
+        // *** DataOut ***
+        buffer.put(dataOut);
+    }
+    
+    public int getLength() {
+        return 2 + dataOut.length;
+    }
+    
+    private byte[] dataOut;
 }

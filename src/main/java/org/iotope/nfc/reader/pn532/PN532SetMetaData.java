@@ -28,13 +28,13 @@ public class PN532SetMetaData extends PN532AbstractCommand<PN532SetMetaData, PN5
     public PN532SetMetaData() {
         super(PN532SetMetaDataResponse.class);
     }
-
-	public void transfer(ByteBuffer buffer) {
-		throw new NoSuchMethodError("Not implemented");
-	}
-
-	@Override
-	public int getLength() {
-		throw new NoSuchMethodError("Not implemented");
-	}
+    
+    public void transfer(ByteBuffer buffer) {
+        throw new NoSuchMethodError("Not implemented");
+    }
+    
+    @Override
+    public int getLength() {
+        throw new NoSuchMethodError("Not implemented");
+    }
 }

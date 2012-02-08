@@ -22,6 +22,8 @@
 package org.iotope.nfc.reader;
 
 
-public interface ReaderResponse<COMMAND extends ReaderCommand,RESPONSE extends ReaderResponse> {
-
+public interface ReaderResponse<COMMAND extends ReaderCommand> {
+    
+    public COMMAND getCommand();
+    
 }

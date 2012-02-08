@@ -21,8 +21,18 @@
 
 package org.iotope.nfc.reader.pn532;
 
-public class PN532SetMetaDataResponse extends PN532AbstractResponse {
+import java.nio.ByteBuffer;
+
+import org.iotope.nfc.reader.pn532.struct.PN532Status;
+
+public class PN532SetMetaDataResponse extends PN532AbstractResponse<PN532SetMetaData> {
     
-    public PN532SetMetaDataResponse() {
+    public PN532SetMetaDataResponse(PN532SetMetaData command, ByteBuffer buffer) {
+        super(command, buffer);
+        checkInstruction(0x95, buffer.get());
+        status = new PN532Status(buffer);
     }
+    
+    PN532Status status;
+    
 }

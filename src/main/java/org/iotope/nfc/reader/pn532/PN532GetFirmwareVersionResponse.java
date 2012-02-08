@@ -21,8 +21,53 @@
 
 package org.iotope.nfc.reader.pn532;
 
-public class PN532GetFirmwareVersionResponse extends PN532AbstractResponse {
+import java.nio.ByteBuffer;
+
+/**
+ * <p>
+ * Get the verion and capabilities of the embedded firmware.
+ * </p>
+ * 
+ * @author Alex Van Boxel <alex@vanboxel.be>
+ * @see NXP PN532 User Manual - 7.2.2 GetFirmwareVersion
+ */
+public class PN532GetFirmwareVersionResponse extends PN532AbstractResponse<PN532GetFirmwareVersion> {
     
-    public PN532GetFirmwareVersionResponse() {
+    public PN532GetFirmwareVersionResponse(PN532GetFirmwareVersion command, ByteBuffer buffer) {
+        super(command, buffer);
+        checkInstruction(0x03, buffer.get());
+        icVersion = buffer.get();
+        firmwareVersion = buffer.get();
+        firmwareRevision = buffer.get();
+        capabilities = buffer.get();
     }
+    
+    public int getICVersion() {
+        return icVersion;
+    }
+    
+    public int getFirmwareVersion() {
+        return firmwareVersion;
+    }
+    
+    public int getFirmwareRevision() {
+        return firmwareRevision;
+    }
+    
+    public boolean isISOIEC14443A() {
+        return 0x01 == (0x01 & capabilities);
+    }
+    
+    public boolean isISOIEC14443B() {
+        return 0x01 == (0x02 & capabilities);
+    }
+    
+    public boolean isISO18092() {
+        return 0x01 == (0x04 & capabilities);
+    }
+    
+    private int icVersion;
+    private int firmwareVersion;
+    private int firmwareRevision;
+    private int capabilities;
 }

@@ -25,25 +25,21 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 
-public abstract class AbstractCommand<COMMAND extends ReaderCommand, RESPONSE extends ReaderResponse>
-		implements ReaderCommand<COMMAND, RESPONSE> {
-
-	protected Class<RESPONSE> responseClass;
-
-	public AbstractCommand(Class<RESPONSE> responseClass) {
-		this.responseClass = responseClass;
-	}
-
-	public RESPONSE transmit(ReaderChannel channel) {
-		return null;
-	}
-
-	public RESPONSE receive(ByteBuffer buffer) throws SecurityException,
-			NoSuchMethodException, IllegalArgumentException,
-			InstantiationException, IllegalAccessException,
-			InvocationTargetException {
-		Constructor<RESPONSE> constructor = responseClass.getConstructor();
-		RESPONSE response = constructor.newInstance();
-		return response;
-	}
+public abstract class AbstractCommand<COMMAND extends ReaderCommand, RESPONSE extends ReaderResponse> implements ReaderCommand<COMMAND, RESPONSE> {
+    
+    protected Class<RESPONSE> responseClass;
+    
+    public AbstractCommand(Class<RESPONSE> responseClass) {
+        this.responseClass = responseClass;
+    }
+    
+    public RESPONSE transmit(ReaderChannel channel) {
+        return null;
+    }
+    
+    public RESPONSE receive(ByteBuffer buffer) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        Constructor<RESPONSE> constructor = responseClass.getConstructor();
+        RESPONSE response = constructor.newInstance();
+        return response;
+    }
 }

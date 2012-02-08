@@ -34,39 +34,38 @@ import org.iotope.util.IOUtil;
  * @author Alex Van Boxel <alex@vanboxel.be>
  * @see NXP PN532 User Manual - 7.3.8 InDataExchange
  */
-public class PN532InDataExchange extends
-		PN532AbstractCommand<PN532InDataExchange, PN532InDataExchangeResponse> {
-
-	/**
-	 *  
-	 * @param target logical target
-	 * @param mi More Information
-	 * @param dataOut data
-	 */
-	public PN532InDataExchange(int target, boolean mi, byte[] dataOut) {
-		super(PN532InDataExchangeResponse.class);
-		this.dataOut = dataOut;
-		this.target = target;
-		this.mi = mi;
-	}
-
-	public void transfer(ByteBuffer buffer) {
-		buffer.put((byte) 0xD4);
-		buffer.put((byte) 0x40);
-		// *** Tg ***
-		int tg = target;
-		if (mi)
-			tg = IOUtil.bitset(tg, 6);
-		buffer.put((byte) tg);
-		// *** DataOut ***
-		buffer.put(dataOut);
-	}
-
-	public int getLength() {
-		return 2 + 1 + dataOut.length;
-	}
-
-	private int target;
-	private boolean mi;
-	private byte[] dataOut;
+public class PN532InDataExchange extends PN532AbstractCommand<PN532InDataExchange, PN532InDataExchangeResponse> {
+    
+    /**
+     *  
+     * @param target logical target
+     * @param mi More Information
+     * @param dataOut data
+     */
+    public PN532InDataExchange(int target, boolean mi, byte[] dataOut) {
+        super(PN532InDataExchangeResponse.class);
+        this.dataOut = dataOut;
+        this.target = target;
+        this.mi = mi;
+    }
+    
+    public void transfer(ByteBuffer buffer) {
+        buffer.put((byte) 0xD4);
+        buffer.put((byte) 0x40);
+        // *** Tg ***
+        int tg = target;
+        if (mi)
+            tg = IOUtil.bitset(tg, 6);
+        buffer.put((byte) tg);
+        // *** DataOut ***
+        buffer.put(dataOut);
+    }
+    
+    public int getLength() {
+        return 2 + 1 + dataOut.length;
+    }
+    
+    private int target;
+    private boolean mi;
+    private byte[] dataOut;
 }

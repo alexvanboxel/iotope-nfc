@@ -31,19 +31,18 @@ import java.nio.ByteBuffer;
  * @author Alex Van Boxel <alex@vanboxel.be>
  * @see NXP PN532 User Manual - 7.2.2 GetFirmwareVersion
  */
-public class PN532TgGetData extends
-		PN532AbstractCommand<PN532TgGetData, PN532TgGetDataResponse> {
-
-	public PN532TgGetData() {
-		super(PN532TgGetDataResponse.class);
-	}
-
-	public void transfer(ByteBuffer buffer) {
-		buffer.put((byte) 0xD4);
-		buffer.put((byte) 0x86);
-	}
-
-	public int getLength() {
-		return 2;
-	}
+public class PN532TgGetData extends PN532AbstractCommand<PN532TgGetData, PN532TgGetDataResponse> {
+    
+    public PN532TgGetData() {
+        super(PN532TgGetDataResponse.class);
+    }
+    
+    public void transfer(ByteBuffer buffer) {
+        buffer.put((byte) 0xD4);
+        buffer.put((byte) 0x86);
+    }
+    
+    public int getLength() {
+        return 2;
+    }
 }
