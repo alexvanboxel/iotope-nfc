@@ -27,16 +27,18 @@ import java.nio.ByteBuffer;
 
 import org.iotope.nfc.reader.AbstractResponse;
 import org.iotope.nfc.reader.ReaderCommand;
+import org.iotope.util.IOUtil;
 
 public abstract class PN532AbstractResponse<COMMAND extends ReaderCommand> extends AbstractResponse<COMMAND> {
     
     public PN532AbstractResponse(COMMAND command, ByteBuffer buffer) {
         super(command);
-        checkState(buffer.get() == 0xD5, "Illegal PN532 response state, response always start with 0xD5");
+        byte b = buffer.get();
+        checkState(b == (byte)0xd5, "Illegal PN532 response state (0x%s), response should always start with 0xd5",IOUtil.hex(b));
     }
     
-    protected void checkInstruction(int expected, int actual) {
-        checkState(expected == actual, "Expected instruction %x , got %x", expected, actual);
+    protected void checkInstruction(int expected, byte actual) {
+        checkState((byte)expected == actual, "Expected instruction 0x%s , got 0x%s", IOUtil.hex(expected), IOUtil.hex(actual));
         
     }
     

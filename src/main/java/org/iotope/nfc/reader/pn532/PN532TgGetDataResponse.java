@@ -24,6 +24,7 @@ package org.iotope.nfc.reader.pn532;
 import java.nio.ByteBuffer;
 
 import org.iotope.nfc.reader.pn532.struct.PN532Status;
+import org.iotope.util.IOUtil;
 
 public class PN532TgGetDataResponse extends PN532AbstractResponse<PN532TgGetData> {
     
@@ -33,6 +34,33 @@ public class PN532TgGetDataResponse extends PN532AbstractResponse<PN532TgGetData
         status = new PN532Status(buffer);
         data = new byte[buffer.remaining()];
         buffer.get(data);
+    }
+    
+    
+    public PN532Status getStatus() {
+        return status;
+    }
+    
+    
+    public boolean hasError() {
+        return status.hasError();
+    }
+    
+    
+    public boolean hasMoreInformation() {
+        return status.hasMoreInformation();
+    }
+    
+    
+    public boolean hasNodeAddress() {
+        return status.hasNodeAddress();
+    }
+    
+    
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return "< TgGetData " + status + " " + IOUtil.hex(data);
     }
     
     PN532Status status;

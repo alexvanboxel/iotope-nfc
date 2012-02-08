@@ -25,7 +25,9 @@ import java.nio.ByteBuffer;
 
 /**
  * <p>
- * This command is used by a host controller to activate a target using either active or passive communication mode. If a target is in the field, it will then be ready for DEP (ISO/IEC18092 Data Exchange Protocol) exchanges.
+ * This command is used by a host controller to activate a target using either 
+ * active or passive communication mode. If a target is in the field, it will then 
+ * be ready for DEP (ISO/IEC18092 Data Exchange Protocol) exchanges.
  * </p>
  * 
  * @author Alex Van Boxel <alex@vanboxel.be>

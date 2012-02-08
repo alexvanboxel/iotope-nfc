@@ -25,6 +25,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 
+import org.iotope.nfc.reader.pn532.PN532InDataExchange;
+
 public abstract class AbstractCommand<COMMAND extends ReaderCommand, RESPONSE extends ReaderResponse> implements ReaderCommand<COMMAND, RESPONSE> {
     
     protected Class<RESPONSE> responseClass;
@@ -38,8 +40,7 @@ public abstract class AbstractCommand<COMMAND extends ReaderCommand, RESPONSE ex
     }
     
     public RESPONSE receive(ByteBuffer buffer) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        Constructor<RESPONSE> constructor = responseClass.getConstructor();
-        RESPONSE response = constructor.newInstance();
-        return response;
+        Constructor<RESPONSE> constructor = responseClass.getConstructor(getClass(), ByteBuffer.class);
+        return constructor.newInstance(this, buffer);
     }
 }
