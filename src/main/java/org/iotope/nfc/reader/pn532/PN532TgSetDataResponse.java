@@ -23,10 +23,20 @@ package org.iotope.nfc.reader.pn532;
 
 import java.nio.ByteBuffer;
 
+import org.iotope.nfc.reader.pn532.struct.PN532Status;
+
 public class PN532TgSetDataResponse extends PN532AbstractResponse<PN532TgSetData> {
     
     public PN532TgSetDataResponse(PN532TgSetData command, ByteBuffer buffer) {
         super(command, buffer);
         checkInstruction(0x8F, buffer.get());
+        status = new PN532Status(buffer);
     }
+    
+    @Override
+    public String toString() {
+        return "< TgSetData " + status;
+    }
+    
+    PN532Status status;
 }

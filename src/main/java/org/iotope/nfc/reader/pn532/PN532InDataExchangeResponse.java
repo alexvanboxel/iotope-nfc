@@ -24,6 +24,7 @@ package org.iotope.nfc.reader.pn532;
 import java.nio.ByteBuffer;
 
 import org.iotope.nfc.reader.pn532.struct.PN532Status;
+import org.iotope.util.IOUtil;
 
 public class PN532InDataExchangeResponse extends PN532AbstractResponse<PN532InDataExchange> {
     
@@ -41,6 +42,12 @@ public class PN532InDataExchangeResponse extends PN532AbstractResponse<PN532InDa
     
     public byte[] getData() {
         return data;
+    }
+    
+    
+    @Override
+    public String toString() {
+        return "< InDataExchange " + status + " " + IOUtil.hex(data);
     }
     
     private PN532Status status;

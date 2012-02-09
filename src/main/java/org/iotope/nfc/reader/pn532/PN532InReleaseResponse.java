@@ -33,5 +33,11 @@ public class PN532InReleaseResponse extends PN532AbstractResponse<PN532InRelease
         status = new PN532Status(buffer);
     }
     
+    
+    @Override
+    public String toString() {
+        return "< InRelease " + status;
+    }
+    
     PN532Status status;
 }

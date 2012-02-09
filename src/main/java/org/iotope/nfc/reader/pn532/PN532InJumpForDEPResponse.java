@@ -24,6 +24,7 @@ package org.iotope.nfc.reader.pn532;
 import java.nio.ByteBuffer;
 
 import org.iotope.nfc.reader.pn532.struct.PN532Status;
+import org.iotope.util.IOUtil;
 
 public class PN532InJumpForDEPResponse extends PN532AbstractResponse<PN532InJumpForDEP> {
     
@@ -42,6 +43,12 @@ public class PN532InJumpForDEPResponse extends PN532AbstractResponse<PN532InJump
         buffer.get(g);
         // D5 57 Status Tg NFCID3t[0..9] DIDt BSt BRt
         // TO PPt [Gt [0..n]]
+    }
+        
+    @Override
+    public String toString() {
+        return "< InJumpForDEP " + status + " " + tg + " nfcid3:" + IOUtil.hex(nfcid3) + " did:" + IOUtil.hex(did) + " bs:" + IOUtil.hex(bs) //
+                + " br:" + IOUtil.hex(br) + " to:" + IOUtil.hex(to) + " pp:" + IOUtil.hex(pp) + " g:" + IOUtil.hex(g);
     }
     
     private PN532Status status;

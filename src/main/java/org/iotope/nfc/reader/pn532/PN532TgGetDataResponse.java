@@ -55,11 +55,9 @@ public class PN532TgGetDataResponse extends PN532AbstractResponse<PN532TgGetData
     public boolean hasNodeAddress() {
         return status.hasNodeAddress();
     }
-    
-    
+        
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         return "< TgGetData " + status + " " + IOUtil.hex(data);
     }
     

@@ -23,6 +23,8 @@ package org.iotope.nfc.reader.pn532;
 
 import java.nio.ByteBuffer;
 
+import org.iotope.util.IOUtil;
+
 /**
  * <p>
  * Get the verion and capabilities of the embedded firmware.
@@ -64,6 +66,17 @@ public class PN532GetFirmwareVersionResponse extends PN532AbstractResponse<PN532
     
     public boolean isISO18092() {
         return 0x01 == (0x04 & capabilities);
+    }
+    
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("<< GetFirmwareVersion " + " ic:" + IOUtil.hex(icVersion) + " version:" + IOUtil.hex(firmwareVersion) + " revision:" + IOUtil.hex(firmwareRevision)+ "\n");
+        buffer.append("<- GetFirmwareVersion ");
+        buffer.append("ISOIEC14443A: "+isISOIEC14443A()+" ");
+        buffer.append("ISOIEC14443B: "+isISOIEC14443B()+" ");
+        buffer.append("ISO18092: "+isISO18092()+"\n");
+        return buffer.toString();
     }
     
     private int icVersion;

@@ -32,7 +32,7 @@ public class IOUtil {
 			return "[---]";
 		String result = "[";
 		for (int i = 0; i < array.length; i++) {
-			if(array.length > 1) {
+			if(i > 0) {
 				result+=" ";
 			}
 			result += hex(array[i]);
