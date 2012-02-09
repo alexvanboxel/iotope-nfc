@@ -49,6 +49,8 @@ public class ReaderChannel {
     
     public <RESPONSE extends ReaderResponse> RESPONSE transmit(ReaderCommand readerCommand) throws Exception {
         
+        System.out.println(readerCommand);
+
         // ACR122
         byte[] header = { (byte) 0xff, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
         out.put(header);
@@ -63,9 +65,11 @@ public class ReaderChannel {
             ByteBuffer in = ByteBuffer.wrap(resp.getBytes());
             // check response !!!
             
-            System.out.println("<<<RAW<<< " + IOUtil.hex(resp.getBytes()));
-            return (RESPONSE) readerCommand.receive(in);
+            RESPONSE response = (RESPONSE) readerCommand.receive(in);
+            System.out.println(response);
+            return response;
         } catch (CardException e) {
+            e.printStackTrace();
             throw new Exception(e.getMessage());
         }
     }

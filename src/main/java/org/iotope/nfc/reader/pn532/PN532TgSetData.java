@@ -23,6 +23,8 @@ package org.iotope.nfc.reader.pn532;
 
 import java.nio.ByteBuffer;
 
+import org.iotope.util.IOUtil;
+
 /**
  * <p>
  * This command is used in case of the PN532 configured as target for Data
@@ -57,5 +59,10 @@ public class PN532TgSetData extends PN532AbstractCommand<PN532TgSetData, PN532Tg
         return 2 + dataOut.length;
     }
     
+    @Override
+    public String toString() {
+        return ">> TgSetData "+IOUtil.hex(dataOut);
+    }
+
     private byte[] dataOut;
 }

@@ -23,6 +23,8 @@ package org.iotope.nfc.reader.pn532;
 
 import java.nio.ByteBuffer;
 
+import org.iotope.util.IOUtil;
+
 /**
  * <p>
  * Get the verion and capabilities of the embedded firmware.
@@ -44,5 +46,10 @@ public class PN532GetFirmwareVersion extends PN532AbstractCommand<PN532GetFirmwa
  
     public int getLength() {
         return 2;
+    }
+
+    @Override
+    public String toString() {
+        return ">> GetFirmwareVersion";
     }
 }

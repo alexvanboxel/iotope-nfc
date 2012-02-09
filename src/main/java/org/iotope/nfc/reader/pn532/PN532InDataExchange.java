@@ -65,6 +65,11 @@ public class PN532InDataExchange extends PN532AbstractCommand<PN532InDataExchang
         return 2 + 1 + dataOut.length;
     }
     
+    @Override
+    public String toString() {
+        return ">> InDataExchange {Target:" + target + ", MI:"+mi + "} "+IOUtil.hex(dataOut);
+    }
+
     private int target;
     private boolean mi;
     private byte[] dataOut;

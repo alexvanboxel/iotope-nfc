@@ -23,6 +23,8 @@ package org.iotope.nfc.reader.pn532;
 
 import java.nio.ByteBuffer;
 
+import org.iotope.util.IOUtil;
+
 public class PN532InRelease extends PN532AbstractCommand<PN532InRelease, PN532InReleaseResponse> {
     
     public PN532InRelease() {
@@ -41,4 +43,9 @@ public class PN532InRelease extends PN532AbstractCommand<PN532InRelease, PN532In
         return 2 + 1;
     }
     
+
+    @Override
+    public String toString() {
+        return ">> InRelease Tg:"+IOUtil.hex(0);
+    }
 }

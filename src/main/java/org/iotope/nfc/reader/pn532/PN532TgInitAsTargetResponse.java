@@ -36,10 +36,11 @@ public class PN532TgInitAsTargetResponse extends PN532AbstractResponse<PN532TgIn
     }
     
     
-@Override
-public String toString() {
-    return "<< TgGetData " + IOUtil.hex(mode) + " " + IOUtil.hex(initiatorCommand);
-}
+    @Override
+    public String toString() {
+        return "<< TgGetData " + IOUtil.hex(mode) + " " + IOUtil.hex(initiatorCommand);
+    }
+    
     private int mode;
     private byte[] initiatorCommand;
 }
