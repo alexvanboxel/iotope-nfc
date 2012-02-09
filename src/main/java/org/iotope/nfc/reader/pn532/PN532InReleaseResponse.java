@@ -36,7 +36,7 @@ public class PN532InReleaseResponse extends PN532AbstractResponse<PN532InRelease
     
     @Override
     public String toString() {
-        return "< InRelease " + status;
+        return "<< InRelease " + status;
     }
     
     PN532Status status;

@@ -58,7 +58,7 @@ public class PN532TgGetDataResponse extends PN532AbstractResponse<PN532TgGetData
         
     @Override
     public String toString() {
-        return "< TgGetData " + status + " " + IOUtil.hex(data);
+        return "<< TgGetData " + status + " " + IOUtil.hex(data);
     }
     
     PN532Status status;

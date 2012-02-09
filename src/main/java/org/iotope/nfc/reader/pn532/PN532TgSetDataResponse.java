@@ -35,7 +35,7 @@ public class PN532TgSetDataResponse extends PN532AbstractResponse<PN532TgSetData
     
     @Override
     public String toString() {
-        return "< TgSetData " + status;
+        return "<< TgSetData " + status;
     }
     
     PN532Status status;

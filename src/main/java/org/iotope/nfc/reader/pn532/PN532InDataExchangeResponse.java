@@ -44,10 +44,9 @@ public class PN532InDataExchangeResponse extends PN532AbstractResponse<PN532InDa
         return data;
     }
     
-    
     @Override
     public String toString() {
-        return "< InDataExchange " + status + " " + IOUtil.hex(data);
+        return "<< InDataExchange " + status + " " + IOUtil.hex(data);
     }
     
     private PN532Status status;

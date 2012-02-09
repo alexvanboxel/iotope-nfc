@@ -47,7 +47,7 @@ public class PN532InJumpForDEPResponse extends PN532AbstractResponse<PN532InJump
         
     @Override
     public String toString() {
-        return "< InJumpForDEP " + status + " " + tg + " nfcid3:" + IOUtil.hex(nfcid3) + " did:" + IOUtil.hex(did) + " bs:" + IOUtil.hex(bs) //
+        return "<< InJumpForDEP " + status + " " + tg + " nfcid3:" + IOUtil.hex(nfcid3) + " did:" + IOUtil.hex(did) + " bs:" + IOUtil.hex(bs) //
                 + " br:" + IOUtil.hex(br) + " to:" + IOUtil.hex(to) + " pp:" + IOUtil.hex(pp) + " g:" + IOUtil.hex(g);
     }
     
