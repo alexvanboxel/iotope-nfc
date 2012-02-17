@@ -23,8 +23,6 @@ package org.iotope.nfc.reader.pn532;
 
 import java.nio.ByteBuffer;
 
-import org.iotope.util.IOUtil;
-
 /**
  * <p>
  * The PN532 sends back the version of the embedded firmware

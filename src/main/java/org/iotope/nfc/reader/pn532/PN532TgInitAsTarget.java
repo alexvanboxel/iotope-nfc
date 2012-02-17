@@ -25,8 +25,6 @@ import static org.iotope.util.IOUtil.hex;
 
 import java.nio.ByteBuffer;
 
-import org.iotope.util.IOUtil;
-
 /**
  * <p>
  * Configure the PN532 as target.

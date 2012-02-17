@@ -23,20 +23,24 @@ package org.iotope.nfc.reader.pn532;
 
 import java.nio.ByteBuffer;
 
-import org.iotope.nfc.reader.pn532.struct.PN532Status;
-
-public class PN532TgSetMetaDataResponse extends PN532AbstractResponse<PN532TgSetMetaData> {
+/**
+ * <p>
+ * This command is used to configure the different settings of the PN532 as described in
+ * the input section of this command.
+ * </p>
+ * 
+ * @author Alex Van Boxel <alex@vanboxel.be>
+ * @see NXP PN532 User Manual - 7.3.1 RFConfiguration
+ */
+public class PN532RFConfigurationResponse extends PN532AbstractResponse<PN532RFConfiguration> {
     
-    public PN532TgSetMetaDataResponse(PN532TgSetMetaData command, ByteBuffer buffer) {
+    public PN532RFConfigurationResponse(PN532RFConfiguration command, ByteBuffer buffer) {
         super(command, buffer);
-        checkInstruction(0x95, buffer.get());
-        status = new PN532Status(buffer);
+        checkInstruction(0x33, buffer.get());
     }
     
     @Override
     public String toString() {
-        return "<< TgSetMetaData " + status;
+        return "<< RFConfiguration";
     }
-    
-    PN532Status status;
 }
