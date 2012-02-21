@@ -28,10 +28,11 @@ import javax.smartcardio.CardException;
 import javax.smartcardio.CommandAPDU;
 import javax.smartcardio.ResponseAPDU;
 
-import org.iotope.util.IOUtil;
+import org.slf4j.*;
 
 @SuppressWarnings("restriction")
 public class ReaderChannel {
+    Logger logger = LoggerFactory.getLogger(ReaderChannel.class);
     
     private ReaderConnection connection;
     private CardChannel channel;
@@ -49,7 +50,7 @@ public class ReaderChannel {
     
     public <RESPONSE extends ReaderResponse> RESPONSE transmit(ReaderCommand readerCommand) throws Exception {
         
-        System.out.println(readerCommand);
+        logger.debug(readerCommand.toString());
 
         // ACR122
         byte[] header = { (byte) 0xff, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
@@ -66,7 +67,7 @@ public class ReaderChannel {
             // check response !!!
             
             RESPONSE response = (RESPONSE) readerCommand.receive(in);
-            System.out.println(response);
+            logger.debug(response.toString());
             return response;
         } catch (CardException e) {
             e.printStackTrace();
