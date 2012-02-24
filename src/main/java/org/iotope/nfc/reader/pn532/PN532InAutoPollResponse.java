@@ -24,8 +24,8 @@ package org.iotope.nfc.reader.pn532;
 import static org.iotope.util.IOUtil.hex;
 
 import java.nio.ByteBuffer;
-
-import org.iotope.util.IOUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -59,6 +59,13 @@ public class PN532InAutoPollResponse extends PN532AbstractResponse<PN532InAutoPo
         return buffer.toString();
     }
     
+    public List<String> getRawTagdata() {
+        ArrayList<String> list = new ArrayList<String>();
+        for (TargetData td : tags) {
+            list.add(td.toString());
+        }
+        return list;
+    }
     /*
 ttag
 <- InAutoPoll {TargetData type: 10 len:0c [01 00 44 00 lenid:07 04 47 b9 9a 34 23 80]}
