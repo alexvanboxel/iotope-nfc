@@ -25,6 +25,7 @@ import static org.iotope.util.IOUtil.hex;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -59,13 +60,25 @@ public class PN532InAutoPollResponse extends PN532AbstractResponse<PN532InAutoPo
         return buffer.toString();
     }
     
-    public List<String> getRawTagdata() {
-        ArrayList<String> list = new ArrayList<String>();
-        for (TargetData td : tags) {
-            list.add(td.toString());
-        }
-        return list;
+    public int getTagCount() {
+        return tags.length;
     }
+    
+    public TargetData getTargetData(int i) {
+        return tags[i];
+    }
+
+    public List<TargetData> getTargets() {
+        return Arrays.asList(tags);
+    }
+    
+//    public List<String> getRawTagdata() {
+//        ArrayList<String> list = new ArrayList<String>();
+//        for (TargetData td : tags) {
+//            list.add(td.toString());
+//        }
+//        return list;
+//    }
     /*
 ttag
 <- InAutoPoll {TargetData type: 10 len:0c [01 00 44 00 lenid:07 04 47 b9 9a 34 23 80]}
@@ -103,7 +116,7 @@ YouTube
 <- InAutoPoll len:01{TargetData type: 40 len:112 [01 00 02 40 04 08 65 00 dc 80 a4 29 1c 34 84 c2 19 18 81 00 00 00 0e 32 46 66 6d 01 01 10 03 02 00 01 04 01 96]}
 <- InAutoPoll len:01{TargetData type: 40 len:112 [01 00 02 40 04 08 d7 aa 84 53 c2 66 67 b9 90 c4 ce 6f e7 00 00 00 0e 32 46 66 6d 01 01 10 03 02 00 01 04 01 96]}
      */
-    private class TargetData {
+    public class TargetData {
         
         TargetData(ByteBuffer buffer) {
             type = buffer.get();
@@ -112,6 +125,14 @@ YouTube
             buffer.get(targetData);
         }
         
+        public int getType() {
+            return type;
+        }
+
+        public byte[] getTargetData() {
+            return targetData;
+        }
+
         @Override
         public String toString() {
             return "{TargetData type: " + hex(type) + " len:" + hex(targetData.length)+" "+ hex(targetData) + "}";
