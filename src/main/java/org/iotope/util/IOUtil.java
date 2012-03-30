@@ -27,19 +27,29 @@ public class IOUtil {
 		return iByte | (1 << bit);
 	}
 
-	public static String hex(byte[] array) {
-		if (array == null)
-			return "[---]";
-		String result = "[";
-		for (int i = 0; i < array.length; i++) {
-			if(i > 0) {
-				result+=" ";
-			}
-			result += hex(array[i]);
-		}
-		result += "]";
-		return result;
-	}
+    public static String hex(byte[] array) {
+        if (array == null)
+            return "[---]";
+        String result = "[";
+        for (int i = 0; i < array.length; i++) {
+            if(i > 0) {
+                result+=" ";
+            }
+            result += hex(array[i]);
+        }
+        result += "]";
+        return result;
+    }
+
+    public static String hexbin(byte[] array) {
+        if (array == null)
+            return "";
+        String result = "";
+        for (int i = 0; i < array.length; i++) {
+            result += hex(array[i]);
+        }
+        return result;
+    }
 
 	public static String hex(int b) {
 		String result = Integer.toHexString(b);
