@@ -48,7 +48,7 @@ public class ReaderChannel {
     
     private ByteBuffer out = ByteBuffer.allocate(1024);
     
-    public <RESPONSE extends ReaderResponse> RESPONSE transmit(ReaderCommand readerCommand) throws Exception {
+    public <RESPONSE extends ReaderResponse<?>> RESPONSE transmit(ReaderCommand<?, ?> readerCommand) throws Exception {
         
         logger.debug(readerCommand.toString());
 

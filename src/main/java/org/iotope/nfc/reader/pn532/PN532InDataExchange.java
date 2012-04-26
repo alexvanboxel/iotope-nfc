@@ -23,6 +23,7 @@ package org.iotope.nfc.reader.pn532;
 
 import java.nio.ByteBuffer;
 
+import org.iotope.nfc.reader.ReaderTransmit;
 import org.iotope.util.IOUtil;
 
 /**
@@ -40,15 +41,28 @@ public class PN532InDataExchange extends PN532AbstractCommand<PN532InDataExchang
      *  
      * @param target logical target
      * @param mi More Information
-     * @param dataOut data
+     * @param data data
      */
-    public PN532InDataExchange(int target, boolean mi, byte[] dataOut) {
+    public PN532InDataExchange(int target, boolean mi, byte[] data) {
         super(PN532InDataExchangeResponse.class);
-        this.dataOut = dataOut;
+        this.dataOut = data;
+        this.transmitter = null;
         this.target = target;
         this.mi = mi;
     }
     
+    public PN532InDataExchange(int target, byte[] data) {
+        this(target,false,data);
+    }
+
+    public PN532InDataExchange(int target, ReaderTransmit transmitter) {
+        super(PN532InDataExchangeResponse.class);
+        this.dataOut = null;
+        this.transmitter = transmitter;
+        this.target = target;
+        this.mi = false;
+    }
+
     public void transfer(ByteBuffer buffer) {
         buffer.put((byte) 0xD4);
         buffer.put((byte) 0x40);
@@ -57,20 +71,32 @@ public class PN532InDataExchange extends PN532AbstractCommand<PN532InDataExchang
         if (mi)
             tg = IOUtil.bitset(tg, 6);
         buffer.put((byte) tg);
-        // *** DataOut ***
-        buffer.put(dataOut);
+        if(transmitter!=null) {
+            transmitter.transfer(buffer);
+        }
+        else {
+            // *** DataOut ***
+            buffer.put(dataOut);
+        }
     }
     
     public int getLength() {
+        if(transmitter!=null) {
+            return 2 + 1 + transmitter.getLength();
+        }
         return 2 + 1 + dataOut.length;
     }
     
     @Override
     public String toString() {
+        if(transmitter!=null) {
+            return ">> InDataExchange {Target:" + target + ", MI:"+mi + "} #####################";
+        }
         return ">> InDataExchange {Target:" + target + ", MI:"+mi + "} "+IOUtil.hex(dataOut);
     }
 
     private int target;
     private boolean mi;
     private byte[] dataOut;
+    private ReaderTransmit transmitter;
 }

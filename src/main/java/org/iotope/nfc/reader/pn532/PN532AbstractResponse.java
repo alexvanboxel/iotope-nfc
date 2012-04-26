@@ -29,7 +29,7 @@ import org.iotope.nfc.reader.AbstractResponse;
 import org.iotope.nfc.reader.ReaderCommand;
 import org.iotope.util.IOUtil;
 
-public abstract class PN532AbstractResponse<COMMAND extends ReaderCommand> extends AbstractResponse<COMMAND> {
+public abstract class PN532AbstractResponse<COMMAND extends ReaderCommand<?, ?>> extends AbstractResponse<COMMAND> {
     
     public PN532AbstractResponse(COMMAND command, ByteBuffer buffer) {
         super(command);

@@ -25,7 +25,7 @@ import org.iotope.nfc.reader.AbstractCommand;
 import org.iotope.nfc.reader.ReaderCommand;
 import org.iotope.nfc.reader.ReaderResponse;
 
-public abstract class PN532AbstractCommand<COMMAND extends ReaderCommand, RESPONSE extends ReaderResponse> extends AbstractCommand<COMMAND, RESPONSE> {
+public abstract class PN532AbstractCommand<COMMAND extends ReaderCommand<?, ?>, RESPONSE extends ReaderResponse<?>> extends AbstractCommand<COMMAND, RESPONSE> {
     
     public PN532AbstractCommand(Class<RESPONSE> responseClass) {
         super(responseClass);

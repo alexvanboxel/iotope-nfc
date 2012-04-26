@@ -24,9 +24,11 @@ package org.iotope.nfc.reader.pn532;
 import static org.iotope.util.IOUtil.hex;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.iotope.nfc.tag.NfcTag;
+import org.iotope.nfc.tag.TagFactory;
 
 /**
  * <p>
@@ -42,17 +44,21 @@ public class PN532InAutoPollResponse extends PN532AbstractResponse<PN532InAutoPo
         super(command, buffer);
         checkInstruction(0x61, buffer.get());
         int nr = buffer.get();
-        tags = new TargetData[nr];
+        tagData = new TargetData[nr];
+        tags = new NfcTag[nr];  
         for (int i = 0; i < nr; i++) {
-            tags[i] = new TargetData(buffer);
+            tagData[i] = new TargetData(buffer);
+            byte[] targetData = tagData[i].getTargetData();
+            TagFactory factory = new TagFactory(tagData[i].type,targetData);
+            tags[i] = factory.createNfcTag(); 
         }
     }
     
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("<< InAutoPoll len:"+hex(tags.length)+"\n");
-        for (TargetData td : tags) {
+        buffer.append("<< InAutoPoll len:"+hex(tagData.length)+"\n");
+        for (TargetData td : tagData) {
             buffer.append("<- InAutoPoll ");
             buffer.append(td);
             buffer.append("\n");
@@ -61,15 +67,19 @@ public class PN532InAutoPollResponse extends PN532AbstractResponse<PN532InAutoPo
     }
     
     public int getTagCount() {
-        return tags.length;
+        return tagData.length;
     }
     
     public TargetData getTargetData(int i) {
-        return tags[i];
+        return tagData[i];
+    }
+    
+    public NfcTag getTag(int i) {
+        return tags[i]; 
     }
 
     public List<TargetData> getTargets() {
-        return Arrays.asList(tags);
+        return Arrays.asList(tagData);
     }
     
 //    public List<String> getRawTagdata() {
@@ -142,5 +152,6 @@ YouTube
         private byte[] targetData;
     }
     
-    private TargetData[] tags;
+    private TargetData[] tagData;
+    private NfcTag[] tags;
 }

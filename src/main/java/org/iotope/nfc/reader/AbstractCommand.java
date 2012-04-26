@@ -25,9 +25,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 
-import org.iotope.nfc.reader.pn532.PN532InDataExchange;
-
-public abstract class AbstractCommand<COMMAND extends ReaderCommand, RESPONSE extends ReaderResponse> implements ReaderCommand<COMMAND, RESPONSE> {
+public abstract class AbstractCommand<COMMAND extends ReaderCommand<?, ?>, RESPONSE extends ReaderResponse<?>> implements ReaderCommand<COMMAND, RESPONSE> {
     
     protected Class<RESPONSE> responseClass;
     

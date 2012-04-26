@@ -23,8 +23,6 @@ package org.iotope.nfc.reader.pn532.struct;
 
 import java.nio.ByteBuffer;
 
-import org.iotope.util.IOUtil;
-
 public final class PN532Status {
     
     public PN532Status(ByteBuffer buffer) {

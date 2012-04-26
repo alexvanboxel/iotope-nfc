@@ -24,11 +24,7 @@ package org.iotope.nfc.reader;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 
-public interface ReaderCommand<COMMAND extends ReaderCommand, RESPONSE extends ReaderResponse> {
-    
-    int getLength();
-    
-    void transfer(ByteBuffer buffer);
+public interface ReaderCommand<COMMAND extends ReaderCommand<?, ?>, RESPONSE extends ReaderResponse<?>> extends ReaderTransmit {
     
     RESPONSE receive(ByteBuffer buffer) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException;
     
