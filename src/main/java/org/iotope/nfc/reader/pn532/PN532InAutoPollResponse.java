@@ -21,13 +21,9 @@
 
 package org.iotope.nfc.reader.pn532;
 
-import static org.iotope.util.IOUtil.hex;
-
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.List;
 
-import org.iotope.nfc.tag.NfcTag;
+import org.iotope.nfc.tag.NfcTarget;
 import org.iotope.nfc.tag.TagFactory;
 
 /**
@@ -44,21 +40,17 @@ public class PN532InAutoPollResponse extends PN532AbstractResponse<PN532InAutoPo
         super(command, buffer);
         checkInstruction(0x61, buffer.get());
         int nr = buffer.get();
-        tagData = new TargetData[nr];
-        tags = new NfcTag[nr];  
+        tags = new NfcTarget[nr];  
         for (int i = 0; i < nr; i++) {
-            tagData[i] = new TargetData(buffer);
-            byte[] targetData = tagData[i].getTargetData();
-            TagFactory factory = new TagFactory(tagData[i].type,targetData);
-            tags[i] = factory.createNfcTag(); 
+            tags[i] = TagFactory.build(buffer).createNfcTarget(); 
         }
     }
     
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("<< InAutoPoll len:"+hex(tagData.length)+"\n");
-        for (TargetData td : tagData) {
+        buffer.append("<< InAutoPoll\n");
+        for (NfcTarget td : tags) {
             buffer.append("<- InAutoPoll ");
             buffer.append(td);
             buffer.append("\n");
@@ -67,28 +59,13 @@ public class PN532InAutoPollResponse extends PN532AbstractResponse<PN532InAutoPo
     }
     
     public int getTagCount() {
-        return tagData.length;
+        return tags.length;
     }
     
-    public TargetData getTargetData(int i) {
-        return tagData[i];
-    }
-    
-    public NfcTag getTag(int i) {
+    public NfcTarget getTag(int i) {
         return tags[i]; 
     }
-
-    public List<TargetData> getTargets() {
-        return Arrays.asList(tagData);
-    }
     
-//    public List<String> getRawTagdata() {
-//        ArrayList<String> list = new ArrayList<String>();
-//        for (TargetData td : tags) {
-//            list.add(td.toString());
-//        }
-//        return list;
-//    }
     /*
 ttag
 <- InAutoPoll {TargetData type: 10 len:0c [01 00 44 00 lenid:07 04 47 b9 9a 34 23 80]}
@@ -118,40 +95,15 @@ YouTube
 <- InAutoPoll {TargetData type: 40 len:25 [01 00 02 40 04 08 90 46 35 57 0d 1d c0 b9 2e b3 41 6d 2f 00 00 00 0e 32 46 66 6d 01 01 10 03 02 00 01 04 01 96]}
 
 
-
-
-
 <- InAutoPoll len:01{TargetData type: 40 len:112 [01 00 02 40 04 08 04 02 d1 7c dc 93 fd 40 c4 56 fd 7a b8 00 00 00 0e 32 46 66 6d 01 01 10 03 02 00 01 04 01 96]}
 <- InAutoPoll len:01{TargetData type: 40 len:112 [01 00 02 40 04 08 77 81 c3 b3 fd 92 ff 6e 9a 25 76 2f fd 00 00 00 0e 32 46 66 6d 01 01 10 03 02 00 01 04 01 96]}
 <- InAutoPoll len:01{TargetData type: 40 len:112 [01 00 02 40 04 08 65 00 dc 80 a4 29 1c 34 84 c2 19 18 81 00 00 00 0e 32 46 66 6d 01 01 10 03 02 00 01 04 01 96]}
 <- InAutoPoll len:01{TargetData type: 40 len:112 [01 00 02 40 04 08 d7 aa 84 53 c2 66 67 b9 90 c4 ce 6f e7 00 00 00 0e 32 46 66 6d 01 01 10 03 02 00 01 04 01 96]}
      */
-    public class TargetData {
-        
-        TargetData(ByteBuffer buffer) {
-            type = buffer.get();
-            int len = buffer.get();
-            targetData = new byte[len];
-            buffer.get(targetData);
-        }
-        
-        public int getType() {
-            return type;
-        }
-
-        public byte[] getTargetData() {
-            return targetData;
-        }
-
-        @Override
-        public String toString() {
-            return "{TargetData type: " + hex(type) + " len:" + hex(targetData.length)+" "+ hex(targetData) + "}";
-        }
-        
-        private int type;
-        private byte[] targetData;
-    }
     
-    private TargetData[] tagData;
-    private NfcTag[] tags;
+    private NfcTarget[] tags;
+
+    public NfcTarget[] getTags() {
+        return tags;
+    }
 }

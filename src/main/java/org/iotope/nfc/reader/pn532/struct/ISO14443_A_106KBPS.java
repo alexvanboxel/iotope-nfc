@@ -1,33 +1,27 @@
 package org.iotope.nfc.reader.pn532.struct;
 
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+
+import org.iotope.nfc.tag.MifareClassic;
+import org.iotope.nfc.tag.MifareUltraLight;
+import org.iotope.nfc.tag.NfcTarget;
 import org.iotope.nfc.tag.TagType;
 
 
 public class ISO14443_A_106KBPS extends PN532TargetData {
-    
-    public ISO14443_A_106KBPS(byte[] targetData) {
-        //        Validate.notNull(targetData, "TargetData cannot be null");
-        //        Validate.isTrue(targetData.length >= 5);
-        byte target = targetData[0];
-        byte[] sensRes = new byte[2];
-        System.arraycopy(targetData, 1, sensRes, 0, 2);
-        byte selRes = targetData[3];
-        byte nfcIdLength = targetData[4];
-        //        Validate.isTrue(nfcIdLength > 0, "NFCIdLength must be greater than 0");
-        //        Validate.isTrue(nfcIdLength <= targetData.length - 5, "NFCIDLength cannot be longer than the remaining data length of TargetData");
-        byte[] nfcId = new byte[nfcIdLength];
-        System.arraycopy(targetData, 5, nfcId, 0, nfcIdLength);
-        this.target = target;
-        this.sensRes = sensRes;
-        this.selRes = selRes;
-        this.nfcIdLength = nfcIdLength;
-        this.nfcId = nfcId;
+        
+    public ISO14443_A_106KBPS(ByteBuffer buffer, int len) {
+        super(buffer,len);
+        sensRes = new byte[2];
+        buffer.get(sensRes);
+        selRes = buffer.get();
+        byte nfcIdLength = buffer.get();
+        nfcId = new byte[nfcIdLength];
+        buffer.get(nfcId);
+        remaining(buffer);
     }
-    
-    public byte getTarget() {
-        return target;
-    }
-    
+        
     public byte[] getSensRes() {
         return sensRes;
     }
@@ -36,11 +30,7 @@ public class ISO14443_A_106KBPS extends PN532TargetData {
         return selRes;
     }
     
-    public byte getNfcIdLength() {
-        return nfcIdLength;
-    }
-    
-    public byte[] getNfcId() {
+    public byte[] getNfc1Id() {
         return nfcId;
     }
     
@@ -61,12 +51,54 @@ public class ISO14443_A_106KBPS extends PN532TargetData {
         case (byte) 0x98:
             return TagType.GEMPLUS_MPCOS;
         }
+        System.err.println("getType() for selRes: "+selRes);
         return null;
     }
     
-    private byte target;
+    public NfcTarget createNfcTarget() {
+        TagType type = getType();
+        if(type == null) {
+            System.err.println("Can't create NfcTarget. Don't know type...");
+        }
+        
+        
+        switch (type) {
+        case MIFARE_1K:
+            return new MifareClassic(this);
+        case MIFARE_ULTRALIGHT:
+            return new MifareUltraLight(this);
+        }
+        return null;
+    }
+
     private byte[] sensRes;
     private byte selRes;
-    private byte nfcIdLength;
     private byte[] nfcId;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(nfcId);
+        result = prime * result + selRes;
+        result = prime * result + Arrays.hashCode(sensRes);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ISO14443_A_106KBPS other = (ISO14443_A_106KBPS) obj;
+        if (!Arrays.equals(nfcId, other.nfcId))
+            return false;
+        if (selRes != other.selRes)
+            return false;
+        if (!Arrays.equals(sensRes, other.sensRes))
+            return false;
+        return true;
+    }
 }

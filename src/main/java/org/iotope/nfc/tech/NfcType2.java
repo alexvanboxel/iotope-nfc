@@ -10,7 +10,7 @@ import org.iotope.nfc.ndef.NdefReader;
 import org.iotope.nfc.reader.ReaderChannel;
 import org.iotope.nfc.reader.pn532.PN532InDataExchange;
 import org.iotope.nfc.reader.pn532.PN532InDataExchangeResponse;
-import org.iotope.nfc.tag.NfcTag;
+import org.iotope.nfc.tag.NfcTarget;
 import org.iotope.nfc.tech.mifare.MifareAuthenticate;
 import org.iotope.nfc.tech.mifare.MifareReadBlock;
 import org.iotope.nfc.tech.mifare.MifareWriteBlock;
@@ -24,7 +24,7 @@ public class NfcType2 {
         this.channel = channel;
     }
     
-    public byte[] read(NfcTag nfcTag) throws Exception {
+    public byte[] read(NfcTarget nfcTag) throws Exception {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         for (int page = 0; page < 4; page++) {
             int blockAddress = page * 4;
@@ -37,7 +37,7 @@ public class NfcType2 {
         return output.toByteArray();
     }
     
-    public void readNDEF(NfcTag nfcTag) throws Exception {
+    public void readNDEF(NfcTarget nfcTag) throws Exception {
         byte[] content = read(nfcTag);
         ByteBuffer buffer = ByteBuffer.wrap(content);
         // skip the first 16 bytes
@@ -82,7 +82,7 @@ public class NfcType2 {
         
     }
     
-    public void writeTest(NfcTag nfcTag) throws Exception {
+    public void writeTest(NfcTarget nfcTag) throws Exception {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         
         MifareWriteBlock writeCommand = new MifareWriteBlock(3, new byte[] { (byte) 0xE1, (byte) 0x10, (byte) 0x06, (byte) 0x00 });
@@ -101,7 +101,7 @@ public class NfcType2 {
     }
     
     
-    public byte[] readClassicAll(NfcTag nfcTag) throws Exception {
+    public byte[] readClassicAll(NfcTarget nfcTag) throws Exception {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         // If we attempt to read from sector 0, the sectors we can actually read timeout as well !
         for (int sector = 0; sector < 16; sector++) {
@@ -116,7 +116,7 @@ public class NfcType2 {
     }
     
     
-    private boolean authenticateSector(NfcTag nfcTag, int sector) throws Exception {
+    private boolean authenticateSector(NfcTarget nfcTag, int sector) throws Exception {
         int blockAddr = sector * 4;
         
         List<byte[]> keys = new ArrayList<byte[]>();
