@@ -15,9 +15,11 @@ import org.iotope.nfc.tech.mifare.MifareAuthenticate;
 import org.iotope.nfc.tech.mifare.MifareReadBlock;
 import org.iotope.nfc.tech.mifare.MifareWriteBlock;
 import org.iotope.util.IOUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NfcType2 {
-    
+    private static Logger Log = LoggerFactory.getLogger(NfcType2.class);
     
     public NfcType2(ReaderChannel channel) {
         super();
@@ -32,7 +34,7 @@ public class NfcType2 {
             PN532InDataExchangeResponse response = channel.transmit(new PN532InDataExchange(1, readCommand));
             byte[] responseBytes = response.getData();
             output.write(responseBytes, 0, 16);
-            System.out.println(IOUtil.hex(responseBytes));
+            Log.debug("Page "+ page + " content : " + IOUtil.hex(responseBytes));
         }
         return output.toByteArray();
     }
@@ -55,28 +57,28 @@ public class NfcType2 {
             int tlvL;
             switch (tlvT) {
             case (byte) 0x00: // 2.3.1 NULL TLV
+                Log.debug("TLV NULL");
                 break;
             case (byte) 0x03: // 2.3.4 NDEF Message TLV
                 tlvL = buffer.get();
-                System.out.println("TLV NDEF L" + tlvL);
+                Log.debug("TLV NDEF L" + tlvL);
                 byte[] ndefBuffer = new byte[tlvL];
                 buffer.get(ndefBuffer);
                 NdefReader ndefReader = new NdefReader(ndefBuffer);
                 NdefMessage ndefMessage = ndefReader.parse();
-                
-                System.out.println(new String(ndefBuffer));
                 break;
             case (byte) 0xFD: // 2.3.5 Proprietary TLV
                 tlvL = buffer.get();
-                System.out.println("TLV prop L" + tlvL);
+            Log.debug("TLV Proprietary L" + tlvL);
                 byte[] propBuffer = new byte[tlvL];
                 buffer.get(propBuffer);
                 break;
             case (byte) 0xFE: // 2.3.6 Terminator TLV
+                Log.debug("TLV Terminator");
                 readTLV = false;
                 break;
             default:
-                System.out.println("Unknown TLV: " + IOUtil.hex(tlvT));
+                Log.error("Unknown TLV: " + IOUtil.hex(tlvT));
             }
         }
         
@@ -90,14 +92,6 @@ public class NfcType2 {
         
         writeCommand = new MifareWriteBlock(4, new byte[] { (byte) 0x03, (byte) 0x00, (byte) 0xFE, (byte) 0x00 });
         response = channel.transmit(new PN532InDataExchange(1, writeCommand));
-        
-        //        for (int page16 = 3; page16 < 4; page16++) {
-        //            int blockA = page16 * 4;
-        //            MifareReadBlock readCommand = new MifareReadBlock(blockA);
-        //            PN532InDataExchangeResponse response = channel.transmit(new PN532InDataExchange(1, readCommand));
-        //            byte[] responseBytes = response.getData();
-        //            System.out.println(IOUtil.hex(responseBytes));
-        //        }
     }
     
     
@@ -156,23 +150,10 @@ public class NfcType2 {
             byte[] tag = new byte[] { (byte) 0x30, (byte) 0x00 };
             
             int i = (sector * 4) + block;
-            //int i = sector;
             tag[1] = (byte) i;
             
             PN532InDataExchangeResponse response = channel.transmit(new PN532InDataExchange(1, tag));
             byte[] responseBytes = response.getData();
-            System.out.println(IOUtil.hex(responseBytes));
-            //Command cmd = com.tikitag.client.tagservice.tag.mifare.MiFareCommandFactory.readTagForBlock((sector * 4) + block);
-            // = getReader().sendTagCommand(cmd, getTag());
-            //            log.debug("Read sector=" + sector + " block=" + block + " : " + HexFormatter.toHexString(responseBytes));
-            
-            //            if (responseBytes[2] == 0x00) {
-            //                // Extract the relevant part
-            //                sectorData.write(responseBytes, 3, responseBytes.length - 3);
-            //            } else {
-            //                sectorData.write(UNREAD_BLOCK, 0, UNREAD_BLOCK.length);
-            //            }
-            //        }
         }
         return sectorData.toByteArray();
         

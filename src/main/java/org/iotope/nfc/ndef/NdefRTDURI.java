@@ -1,5 +1,6 @@
 package org.iotope.nfc.ndef;
 
+import java.net.URI;
 import java.nio.charset.Charset;
 
 import com.google.common.collect.ImmutableBiMap;
@@ -10,8 +11,7 @@ public class NdefRTDURI extends NdefRecord {
         this.payload = payload;
         int identifier = (int)payload[0];
         String post = abbreviation.get(identifier);
-        String url = post + new String(payload,1,payload.length-1,Charset.forName("UTF-8"));
-        System.out.println(url);
+        uri = URI.create(post + new String(payload,1,payload.length-1,Charset.forName("UTF-8")));
     }
 
     @Override
@@ -73,4 +73,6 @@ public class NdefRTDURI extends NdefRecord {
     private static ImmutableBiMap<Integer, String> abbreviation;
     
     private byte[] payload;
+    
+    private URI uri;
 }

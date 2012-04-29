@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("restriction")
 public class ReaderChannel {
-    Logger logger = LoggerFactory.getLogger(ReaderChannel.class);
+    private static Logger Log = LoggerFactory.getLogger(ReaderChannel.class);
     
     private ReaderConnection connection;
     private CardChannel channel;
@@ -51,7 +51,7 @@ public class ReaderChannel {
     
     public <RESPONSE extends ReaderResponse<?>> RESPONSE transmit(ReaderCommand<?, ?> readerCommand) throws Exception {
         
-        logger.debug(readerCommand.toString());
+        Log.trace("Sending command: "+readerCommand.toString());
 
         // ACR122
         byte[] header = { (byte) 0xff, (byte) 0x00, (byte) 0x00, (byte) 0x00 };
@@ -68,7 +68,7 @@ public class ReaderChannel {
             // check response !!!
             
             RESPONSE response = (RESPONSE) readerCommand.receive(in);
-            logger.debug(response.toString());
+            Log.trace("Receiving command: "+response.toString());
             return response;
         } catch (CardException e) {
             e.printStackTrace();
