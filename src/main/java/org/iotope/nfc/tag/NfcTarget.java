@@ -12,7 +12,7 @@ public class NfcTarget {
         result = prime * result + ((targetData == null) ? 0 : targetData.hashCode());
         return result;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -29,26 +29,37 @@ public class NfcTarget {
             return false;
         return true;
     }
-
+    
     public NfcTarget(PN532TargetData targetData) {
         this.targetData = targetData;
     }
     
-    public byte[] getNfcId() {
+    public byte[] getNfc1Id() {
         return targetData.getNfc1Id();
     }
     
-    public TagType getType() {
+    public byte[] getNfc3Id() {
+        return targetData.getNfc3Id();
+    }
+    
+    public TagTechType getType() {
         return targetData.getType();
+    }
+    
+    public byte[] getNfcId() {
+        if (getNfc3Id() != null) {
+            return getNfc3Id();
+        }
+        return getNfc1Id();
     }
     
     @Override
     public String toString() {
-        return targetData.getType() + " " + IOUtil.hex(getNfcId());
+        return targetData.getType() + " " + IOUtil.hex(getNfc1Id());
     }
-
+    
     protected PN532TargetData targetData;
-
+    
     public boolean isDEP() {
         return false;
     }

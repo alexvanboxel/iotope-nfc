@@ -6,7 +6,7 @@ import java.util.Arrays;
 import org.iotope.nfc.tag.MifareClassic;
 import org.iotope.nfc.tag.MifareUltraLight;
 import org.iotope.nfc.tag.NfcTarget;
-import org.iotope.nfc.tag.TagType;
+import org.iotope.nfc.tag.TagTechType;
 
 
 public class ISO14443_A_106KBPS extends PN532TargetData {
@@ -34,29 +34,29 @@ public class ISO14443_A_106KBPS extends PN532TargetData {
         return nfcId;
     }
     
-    public TagType getType() {
+    public TagTechType getType() {
         switch (selRes) {
         case (byte) 0x00:
-            return TagType.MIFARE_ULTRALIGHT;
+            return TagTechType.MIFARE_ULTRALIGHT;
         case (byte) 0x08:
-            return TagType.MIFARE_1K;
+            return TagTechType.MIFARE_1K;
         case (byte) 0x09:
-            return TagType.MIFARE_MINI;
+            return TagTechType.MIFARE_MINI;
         case (byte) 0x18:
-            return TagType.MIFARE_4K;
+            return TagTechType.MIFARE_4K;
         case (byte) 0x20:
-            return TagType.MIFARE_DESFIRE;
+            return TagTechType.MIFARE_DESFIRE;
         case (byte) 0x28:
-            return TagType.JCOP30;
+            return TagTechType.JCOP30;
         case (byte) 0x98:
-            return TagType.GEMPLUS_MPCOS;
+            return TagTechType.GEMPLUS_MPCOS;
         }
         System.err.println("getType() for selRes: "+selRes);
         return null;
     }
     
     public NfcTarget createNfcTarget() {
-        TagType type = getType();
+        TagTechType type = getType();
         if(type == null) {
             System.err.println("Can't create NfcTarget. Don't know type...");
         }

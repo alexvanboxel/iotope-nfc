@@ -1,16 +1,22 @@
 package org.iotope.nfc.tech;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.iotope.nfc.ndef.NdefMessage;
+import org.iotope.nfc.ndef.NdefRTDURI;
 import org.iotope.nfc.ndef.NdefReader;
+import org.iotope.nfc.ndef.NdefRecord;
 import org.iotope.nfc.reader.ReaderChannel;
 import org.iotope.nfc.reader.pn532.PN532InDataExchange;
 import org.iotope.nfc.reader.pn532.PN532InDataExchangeResponse;
 import org.iotope.nfc.tag.NfcTarget;
+import org.iotope.nfc.tag.TagContent;
+import org.iotope.nfc.tag.TagContent.ContentType;
+import org.iotope.nfc.tag.TagContent.TagType;
 import org.iotope.nfc.tech.mifare.MifareAuthenticate;
 import org.iotope.nfc.tech.mifare.MifareReadBlock;
 import org.iotope.nfc.tech.mifare.MifareWriteBlock;
@@ -34,12 +40,13 @@ public class NfcType2 {
             PN532InDataExchangeResponse response = channel.transmit(new PN532InDataExchange(1, readCommand));
             byte[] responseBytes = response.getData();
             output.write(responseBytes, 0, 16);
-            Log.debug("Page "+ page + " content : " + IOUtil.hex(responseBytes));
+            Log.debug("Page " + page + " content : " + IOUtil.hex(responseBytes));
         }
         return output.toByteArray();
     }
     
-    public void readNDEF(NfcTarget nfcTag) throws Exception {
+    public TagContent readNDEF(NfcTarget nfcTag) throws Exception {
+        TagContent tagContent = new TagContent();
         byte[] content = read(nfcTag);
         ByteBuffer buffer = ByteBuffer.wrap(content);
         // skip the first 16 bytes
@@ -48,11 +55,6 @@ public class NfcType2 {
         boolean readTLV = true;
         int tlvC = 0;
         while (readTLV) {
-            if (++tlvC > 1) {
-                // only read the first TLV block 
-                readTLV = false;
-                continue;
-            }
             byte tlvT = buffer.get();
             int tlvL;
             switch (tlvT) {
@@ -66,10 +68,30 @@ public class NfcType2 {
                 buffer.get(ndefBuffer);
                 NdefReader ndefReader = new NdefReader(ndefBuffer);
                 NdefMessage ndefMessage = ndefReader.parse();
+                // Special handling for Touchatag tag:
+                // because it doesn't comply to the Type 2 layout
+                // It only has a TLV block for the NDEF message
+                if ((tlvC == 0) && (ndefMessage.size() == 1)) {
+                    NdefRecord record = ndefMessage.getRecord(0);
+                    if (record instanceof NdefRTDURI) {
+                        URI uri = ((NdefRTDURI) record).getURI();
+                        if ("www.ttag.be".equals(uri.getHost())) {
+                            tagContent.setTagType(TagType.LEGACY);
+                            tagContent.add(ContentType.NDEF, ndefMessage);
+                            byte[] buf = new byte[13];
+                            buffer.get(buf);
+                            tagContent.add(ContentType.LEGACY_HASH, buf);
+                            buf = new byte[4];
+                            buffer.get(buf);
+                            tagContent.add(ContentType.MEMORY_RW_BLOCK, buf);
+                            return tagContent;
+                        }
+                    }
+                }
                 break;
             case (byte) 0xFD: // 2.3.5 Proprietary TLV
                 tlvL = buffer.get();
-            Log.debug("TLV Proprietary L" + tlvL);
+                Log.debug("TLV Proprietary L" + tlvL);
                 byte[] propBuffer = new byte[tlvL];
                 buffer.get(propBuffer);
                 break;
@@ -79,9 +101,15 @@ public class NfcType2 {
                 break;
             default:
                 Log.error("Unknown TLV: " + IOUtil.hex(tlvT));
+                byte[] buf = new byte[content.length - buffer.position() + 1];
+                buf[0] = tlvT;
+                buffer.get(buf, 1, content.length - buffer.position());
+                tagContent.add(ContentType.UNFORMATTED, buf);
+                return tagContent;
             }
+            tlvC++;
         }
-        
+        return tagContent;
     }
     
     public void writeTest(NfcTarget nfcTag) throws Exception {
@@ -118,7 +146,7 @@ public class NfcType2 {
         keys.add(new byte[] { (byte) 0xD3, (byte) 0xF7, (byte) 0xD3, (byte) 0xF7, (byte) 0xD3, (byte) 0xF7 });
         
         for (byte[] key : keys) {
-            byte[] id = nfcTag.getNfcId();
+            byte[] id = nfcTag.getNfc1Id();
             if (authenticate(MifareAuthenticate.AuthKey.A, blockAddr, id, key)) {
                 return true;
             }
@@ -160,4 +188,5 @@ public class NfcType2 {
     }
     
     private ReaderChannel channel;
+    
 }

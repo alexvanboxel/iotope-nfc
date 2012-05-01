@@ -3,7 +3,7 @@ package org.iotope.nfc.reader.pn532.struct;
 import java.nio.ByteBuffer;
 
 import org.iotope.nfc.tag.NfcTarget;
-import org.iotope.nfc.tag.TagType;
+import org.iotope.nfc.tag.TagTechType;
 
 public abstract class PN532TargetData {
     
@@ -33,7 +33,7 @@ public abstract class PN532TargetData {
         return target;
     }
     
-    abstract public TagType getType();
+    abstract public TagTechType getType();
     
     abstract public NfcTarget createNfcTarget();
     

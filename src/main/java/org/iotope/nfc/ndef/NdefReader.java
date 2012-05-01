@@ -63,7 +63,7 @@ public class NdefReader {
                 readMessage = false;
             }
         }
-        return null;
+        return ndefMessage;
     }
     
     ByteBuffer ndefBuffer;

@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import org.iotope.nfc.tag.DataExchangeProtocol;
 import org.iotope.nfc.tag.NfcTarget;
-import org.iotope.nfc.tag.TagType;
+import org.iotope.nfc.tag.TagTechType;
 
 
 public class RAW_TARGETDATA extends PN532TargetData {
@@ -22,8 +22,8 @@ public class RAW_TARGETDATA extends PN532TargetData {
         return null;
     }
     
-    public TagType getType() {
-        return TagType.RAW;
+    public TagTechType getType() {
+        return TagTechType.RAW;
     }
     
     @Override

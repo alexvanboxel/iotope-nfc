@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import org.iotope.nfc.tag.DataExchangeProtocol;
 import org.iotope.nfc.tag.NfcTarget;
-import org.iotope.nfc.tag.TagType;
+import org.iotope.nfc.tag.TagTechType;
 
 
 public class DATA_EXCHANGE_PROTOCOL extends PN532TargetData {
@@ -57,8 +57,8 @@ public class DATA_EXCHANGE_PROTOCOL extends PN532TargetData {
         return nfc3Id;
     }
     
-    public TagType getType() {
-        return TagType.DATA_EXCHANGE_PROTOCOL;
+    public TagTechType getType() {
+        return TagTechType.DATA_EXCHANGE_PROTOCOL;
     }
     
     @Override

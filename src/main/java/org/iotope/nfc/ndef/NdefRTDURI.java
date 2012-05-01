@@ -75,4 +75,8 @@ public class NdefRTDURI extends NdefRecord {
     private byte[] payload;
     
     private URI uri;
+
+    public URI getURI() {
+        return uri;
+    }
 }
