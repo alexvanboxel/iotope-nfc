@@ -13,5 +13,11 @@ public class NdefRTDSmartPoster extends NdefRecord {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public String getContent() {
+        // TODO Auto-generated method stub
+        return "";
+    }
     
 }

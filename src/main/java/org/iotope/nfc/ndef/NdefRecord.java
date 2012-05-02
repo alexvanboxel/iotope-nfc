@@ -5,4 +5,6 @@ public abstract class NdefRecord {
     abstract public int getLength();
     
     abstract public String getId();
+
+    abstract public String getContent();
 }

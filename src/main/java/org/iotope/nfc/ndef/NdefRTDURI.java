@@ -79,4 +79,10 @@ public class NdefRTDURI extends NdefRecord {
     public URI getURI() {
         return uri;
     }
+
+    @Override
+    public String getContent() {
+        return uri.toString();
+    }
+
 }
