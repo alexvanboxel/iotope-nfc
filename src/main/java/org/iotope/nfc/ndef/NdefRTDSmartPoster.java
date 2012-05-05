@@ -2,6 +2,11 @@ package org.iotope.nfc.ndef;
 
 public class NdefRTDSmartPoster extends NdefRecord {
 
+    public NdefRTDSmartPoster(byte[] payload) {
+        super(payload);
+        // TODO Auto-generated constructor stub
+    }
+
     @Override
     public int getLength() {
         // TODO Auto-generated method stub

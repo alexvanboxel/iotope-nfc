@@ -2,6 +2,11 @@ package org.iotope.nfc.ndef;
 
 public class NdefRTDText extends NdefRecord {
 
+    public NdefRTDText(byte[] payload) {
+        super(payload);
+        // TODO Auto-generated constructor stub
+    }
+
     @Override
     public int getLength() {
         // TODO Auto-generated method stub

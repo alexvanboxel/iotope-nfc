@@ -1,6 +1,7 @@
 package org.iotope.nfc.ndef;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NdefMessage {
@@ -19,4 +20,9 @@ public class NdefMessage {
     public NdefRecord getRecord(int ix) {
         return records.get(ix);
     }
+    
+    public List<NdefRecord> getRecords() {
+        return Collections.unmodifiableList(records);
+    }
+    
 }

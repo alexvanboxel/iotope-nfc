@@ -1,6 +1,7 @@
 package org.iotope.nfc.tag;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.iotope.nfc.ndef.NdefMessage;
@@ -33,7 +34,7 @@ public class TagContent {
             this.content = content;
         }
         
-        public byte[] getContent() {
+        public byte[] getBlock() {
             return content;
         }
     }
@@ -74,7 +75,11 @@ public class TagContent {
     public TagType getTagType() {
         return tagType;
     }
-    
+
+    public List<Content> getBlocks() {
+        return Collections.unmodifiableList(list);
+    }
+
     private List<Content> list = new ArrayList<Content>();
     private TagType tagType = TagType.GENERIC;
 }

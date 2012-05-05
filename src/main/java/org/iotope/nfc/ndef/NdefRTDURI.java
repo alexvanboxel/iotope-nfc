@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableBiMap;
 public class NdefRTDURI extends NdefRecord {
     
     public NdefRTDURI(byte[] payload) {
-        this.payload = payload;
+        super(payload);
         int identifier = (int)payload[0];
         String post = abbreviation.get(identifier);
         uri = URI.create(post + new String(payload,1,payload.length-1,Charset.forName("UTF-8")));
@@ -25,6 +25,11 @@ public class NdefRTDURI extends NdefRecord {
         return null;
     }
     
+    @Override
+    public Object getRepresentation() {
+        return getURI();
+    }
+
     static {
         ImmutableBiMap.Builder<Integer, String> builder = ImmutableBiMap.builder(); //
         builder.put(0x00, "");
@@ -71,8 +76,6 @@ public class NdefRTDURI extends NdefRecord {
      * TS RTD URI Table 3. Abbreviation Table (page 5)
      */
     private static ImmutableBiMap<Integer, String> abbreviation;
-    
-    private byte[] payload;
     
     private URI uri;
 
