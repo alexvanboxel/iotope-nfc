@@ -12,6 +12,8 @@ public abstract class NdefRecord {
 
     abstract public String getContent();
     
+    abstract public String getRTD();
+    
     protected byte[] payload;
     
     public byte[] getPayload() {

@@ -25,4 +25,8 @@ public class NdefRTDSmartPoster extends NdefRecord {
         return "";
     }
     
+    public String getRTD() {
+        return "urn:nfc:wkt:Sp";
+    }
+    
 }

@@ -25,4 +25,7 @@ public class NdefRTDText extends NdefRecord {
         return "";
     }
     
+    public String getRTD() {
+        return "urn:nfc:wkt:T";
+    }
 }

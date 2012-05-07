@@ -88,4 +88,7 @@ public class NdefRTDURI extends NdefRecord {
         return uri.toString();
     }
 
+    public String getRTD() {
+        return "urn:nfc:wkt:U";
+    }
 }

@@ -14,9 +14,9 @@ import org.iotope.nfc.reader.ReaderChannel;
 import org.iotope.nfc.reader.pn532.PN532InDataExchange;
 import org.iotope.nfc.reader.pn532.PN532InDataExchangeResponse;
 import org.iotope.nfc.tag.NfcTarget;
-import org.iotope.nfc.tag.TagContent;
-import org.iotope.nfc.tag.TagContent.ContentType;
-import org.iotope.nfc.tag.TagContent.TagType;
+import org.iotope.nfc.target.TargetContent;
+import org.iotope.nfc.target.TargetContent.ContentType;
+import org.iotope.nfc.target.TargetContent.TagType;
 import org.iotope.nfc.tech.mifare.MifareAuthenticate;
 import org.iotope.nfc.tech.mifare.MifareReadBlock;
 import org.iotope.nfc.tech.mifare.MifareWriteBlock;
@@ -45,8 +45,8 @@ public class NfcType2 {
         return output.toByteArray();
     }
     
-    public TagContent readNDEF(NfcTarget nfcTag) throws Exception {
-        TagContent tagContent = new TagContent();
+    public TargetContent readNDEF(NfcTarget nfcTag) throws Exception {
+        TargetContent tagContent = new TargetContent();
         byte[] content = read(nfcTag);
         ByteBuffer buffer = ByteBuffer.wrap(content);
         // skip the first 16 bytes
