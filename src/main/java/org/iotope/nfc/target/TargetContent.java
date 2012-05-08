@@ -46,6 +46,10 @@ public class TargetContent {
         return Collections.unmodifiableList(list);
     }
 
+    public Block getBlock(int ix) {
+        return list.get(ix);
+    }
+
     private List<Block> list = new ArrayList<Block>();
     private TagType tagType = TagType.GENERIC;
 }
