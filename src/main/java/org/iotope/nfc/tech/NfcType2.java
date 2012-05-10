@@ -84,9 +84,11 @@ public class NfcType2 {
                             buf = new byte[4];
                             buffer.get(buf);
                             tagContent.add(ContentType.MEMORY_RW_BLOCK, buf);
+                            tagContent.add(ContentType.LEGACY_TAGDATA, content);
                             return tagContent;
                         }
                     }
+                    // 
                 }
                 break;
             case (byte) 0xFD: // 2.3.5 Proprietary TLV

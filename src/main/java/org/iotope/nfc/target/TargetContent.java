@@ -15,7 +15,7 @@ public class TargetContent {
     }
     
     public enum ContentType {
-        NDEF, LEGACY_HASH, MEMORY_RW_BLOCK, MEMORY_RO_BLOCK,UNFORMATTED
+        NDEF, LEGACY_HASH, MEMORY_RW_BLOCK, MEMORY_RO_BLOCK,UNFORMATTED, LEGACY_TAGDATA
     }
     
     public int size() {

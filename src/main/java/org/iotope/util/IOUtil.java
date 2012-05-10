@@ -59,5 +59,4 @@ public class IOUtil {
 			result = result.substring(result.length() - 2);
 		return result;
 	}
-
 }
