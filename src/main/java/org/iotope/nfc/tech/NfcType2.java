@@ -46,72 +46,81 @@ public class NfcType2 {
     }
     
     public TargetContent readNDEF(NfcTarget nfcTag) throws Exception {
-        TargetContent tagContent = new TargetContent();
-        byte[] content = read(nfcTag);
-        ByteBuffer buffer = ByteBuffer.wrap(content);
-        // skip the first 16 bytes
-        buffer.position(16);
-        // read the TLV
-        boolean readTLV = true;
-        int tlvC = 0;
-        while (readTLV) {
-            byte tlvT = buffer.get();
-            int tlvL;
-            switch (tlvT) {
-            case (byte) 0x00: // 2.3.1 NULL TLV
-                Log.debug("TLV NULL");
-                break;
-            case (byte) 0x03: // 2.3.4 NDEF Message TLV
-                tlvL = buffer.get();
-                Log.debug("TLV NDEF L" + tlvL);
-                byte[] ndefBuffer = new byte[tlvL];
-                buffer.get(ndefBuffer);
-                NdefReader ndefReader = new NdefReader(ndefBuffer);
-                NdefMessage ndefMessage = ndefReader.parse();
-                // Special handling for Touchatag tag:
-                // because it doesn't comply to the Type 2 layout
-                // It only has a TLV block for the NDEF message
-                if ((tlvC == 0) && (ndefMessage.size() == 1)) {
-                    NdefRecord record = ndefMessage.getRecord(0);
-                    if (record instanceof NdefRTDURI) {
-                        URI uri = ((NdefRTDURI) record).getURI();
-                        if ("www.ttag.be".equals(uri.getHost())) {
-                            tagContent.setTagType(TagType.LEGACY);
-                            tagContent.add(ContentType.NDEF, ndefMessage);
-                            byte[] buf = new byte[13];
-                            buffer.get(buf);
-                            tagContent.add(ContentType.LEGACY_HASH, buf);
-                            buf = new byte[4];
-                            buffer.get(buf);
-                            tagContent.add(ContentType.MEMORY_RW_BLOCK, buf);
-                            tagContent.add(ContentType.LEGACY_TAGDATA, content);
-                            return tagContent;
+        try {
+            TargetContent tagContent = new TargetContent();
+            byte[] content = read(nfcTag);
+            ByteBuffer buffer = ByteBuffer.wrap(content);
+            // skip the first 16 bytes
+            buffer.position(16);
+            // read the TLV
+            boolean readTLV = true;
+            int tlvC = 0;
+            while (readTLV) {
+                byte tlvT = buffer.get();
+                int tlvL;
+                switch (tlvT) {
+                case (byte) 0x00: // 2.3.1 NULL TLV
+                    Log.debug("TLV NULL");
+                    break;
+                case (byte) 0x03: // 2.3.4 NDEF Message TLV
+                    tlvL = buffer.get();
+                    Log.debug("TLV NDEF L" + tlvL);
+                    byte[] ndefBuffer = new byte[tlvL];
+                    buffer.get(ndefBuffer);
+                    NdefReader ndefReader = new NdefReader(ndefBuffer);
+                    NdefMessage ndefMessage = ndefReader.parse();
+                    // Special handling for Touchatag tag:
+                    // because it doesn't comply to the Type 2 layout
+                    // It only has a TLV block for the NDEF message
+                    if ((tlvC == 0) && (ndefMessage.size() == 1)) {
+                        NdefRecord record = ndefMessage.getRecord(0);
+                        if (record instanceof NdefRTDURI) {
+                            URI uri = ((NdefRTDURI) record).getURI();
+                            if ("www.ttag.be".equals(uri.getHost())) {
+                                tagContent.setTagType(TagType.LEGACY);
+                                tagContent.add(ContentType.NDEF, ndefMessage);
+                                byte[] buf = new byte[13];
+                                buffer.get(buf);
+                                tagContent.add(ContentType.LEGACY_HASH, buf);
+                                buf = new byte[4];
+                                buffer.get(buf);
+                                tagContent.add(ContentType.MEMORY_RW_BLOCK, buf);
+                                tagContent.add(ContentType.LEGACY_TAGDATA, content);
+                                return tagContent;
+                            }
+                            else {
+                                tagContent.add(ContentType.NDEF, ndefMessage);
+                            }
                         }
+                        // 
                     }
-                    // 
+                    break;
+                case (byte) 0xFD: // 2.3.5 Proprietary TLV
+                    tlvL = buffer.get();
+                    Log.debug("TLV Proprietary L" + tlvL);
+                    byte[] propBuffer = new byte[tlvL];
+                    buffer.get(propBuffer);
+                    break;
+                case (byte) 0xFE: // 2.3.6 Terminator TLV
+                    Log.debug("TLV Terminator");
+                    readTLV = false;
+                    break;
+                default:
+                    Log.error("Unknown TLV: " + IOUtil.hex(tlvT));
+                    byte[] buf = new byte[content.length - buffer.position() + 1];
+                    buf[0] = tlvT;
+                    buffer.get(buf, 1, content.length - buffer.position());
+                    tagContent.add(ContentType.UNFORMATTED, buf);
+                    return tagContent;
                 }
-                break;
-            case (byte) 0xFD: // 2.3.5 Proprietary TLV
-                tlvL = buffer.get();
-                Log.debug("TLV Proprietary L" + tlvL);
-                byte[] propBuffer = new byte[tlvL];
-                buffer.get(propBuffer);
-                break;
-            case (byte) 0xFE: // 2.3.6 Terminator TLV
-                Log.debug("TLV Terminator");
-                readTLV = false;
-                break;
-            default:
-                Log.error("Unknown TLV: " + IOUtil.hex(tlvT));
-                byte[] buf = new byte[content.length - buffer.position() + 1];
-                buf[0] = tlvT;
-                buffer.get(buf, 1, content.length - buffer.position());
-                tagContent.add(ContentType.UNFORMATTED, buf);
-                return tagContent;
+                tlvC++;
             }
-            tlvC++;
+            return tagContent;
         }
-        return tagContent;
+        catch(Throwable e) {
+            Log.error("Can't read NDEF, maybe tag was removed "+e.getMessage());
+            return null;
+        }
     }
     
     public void writeTest(NfcTarget nfcTag) throws Exception {
