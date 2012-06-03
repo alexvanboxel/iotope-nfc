@@ -21,26 +21,30 @@
 
 package org.iotope.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class IOUtil {
-
-	public static int bitset(int iByte, int bit) {
-		return iByte | (1 << bit);
-	}
-
+    
+    public static int bitset(int iByte, int bit) {
+        return iByte | (1 << bit);
+    }
+    
     public static String hex(byte[] array) {
         if (array == null)
             return "[---]";
         String result = "[";
         for (int i = 0; i < array.length; i++) {
-            if(i > 0) {
-                result+=" ";
+            if (i > 0) {
+                result += " ";
             }
             result += hex(array[i]);
         }
         result += "]";
         return result;
     }
-
+    
     public static String hexbin(byte[] array) {
         if (array == null)
             return "";
@@ -50,13 +54,23 @@ public class IOUtil {
         }
         return result;
     }
-
-	public static String hex(int b) {
-		String result = Integer.toHexString(b);
-		if (result.length() == 1)
-			result = "0" + result;
-		else
-			result = result.substring(result.length() - 2);
-		return result;
-	}
+    
+    public static String hex(int b) {
+        String result = Integer.toHexString(b);
+        if (result.length() == 1)
+            result = "0" + result;
+        else
+            result = result.substring(result.length() - 2);
+        return result;
+    }
+    
+    public static void copy(InputStream in, OutputStream out) throws IOException {
+        byte buffer[] = new byte[512000];
+        int length;
+        while ((length = in.read(buffer)) != -1) {
+            out.write(buffer, 0, length);
+        }
+        in.close();
+        out.close();
+    }
 }
