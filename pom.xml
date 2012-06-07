@@ -35,18 +35,26 @@
 	</dependencies>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<encoding>UTF-8</encoding>
-						<source>1.6</source>
-						<target>1.6</target>
-						<fork>true</fork>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.6</source>
+					<target>1.6</target>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.3.1</version>
+			</plugin>
+		</plugins>
 	</build>
+	<scm>
+		<connection>scm:git:git@github.com:alexvanboxel/iotope-node.git</connection>
+		<url>scm:git:git@github.com:alexvanboxel/iotope-node.git</url>
+		<developerConnection>scm:git:git@github.com:alexvanboxel/iotope-node.git</developerConnection>
+	</scm>
 </project>
