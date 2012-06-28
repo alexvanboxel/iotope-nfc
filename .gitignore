@@ -2,5 +2,9 @@
 .project
 .settings
 .settings/**/*
-target
-target/**/*
+/target
+/target/**/*
+**~
+*.releaseBackup
+release.properties
+
