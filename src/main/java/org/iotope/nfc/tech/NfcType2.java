@@ -46,8 +46,8 @@ public class NfcType2 {
     }
     
     public TargetContent readNDEF(NfcTarget nfcTag) throws Exception {
+        TargetContent tagContent = new TargetContent();
         try {
-            TargetContent tagContent = new TargetContent();
             byte[] content = read(nfcTag);
             ByteBuffer buffer = ByteBuffer.wrap(content);
             // skip the first 16 bytes
@@ -115,12 +115,11 @@ public class NfcType2 {
                 }
                 tlvC++;
             }
-            return tagContent;
         }
         catch(Throwable e) {
             Log.error("Can't read NDEF, maybe tag was removed "+e.getMessage());
-            return null;
         }
+        return tagContent;
     }
     
     public void writeTest(NfcTarget nfcTag) throws Exception {
