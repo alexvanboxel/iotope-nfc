@@ -1,9 +1,9 @@
 package org.iotope.nfc.ndef;
 
-public class NdefRTDSmartPoster extends NdefRecord {
+public class NdefRTDSmartPoster extends NdefParsedRecord {
 
-    public NdefRTDSmartPoster(byte[] payload) {
-        super(payload);
+    public NdefRTDSmartPoster(byte[] id,byte[] payload) {
+        super(id,payload);
         // TODO Auto-generated constructor stub
     }
 

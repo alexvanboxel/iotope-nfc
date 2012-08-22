@@ -1,10 +1,11 @@
 package org.iotope.nfc.ndef;
 
-public class NdefRTDText extends NdefRecord {
+public class NdefRTDText extends NdefParsedRecord {
 
-    public NdefRTDText(byte[] payload) {
-        super(payload);
-        // TODO Auto-generated constructor stub
+	public static final String TYPE = "urn:nfc:wkt:T";
+
+	public NdefRTDText(byte[] id,byte[] payload) {
+        super(id,payload);
     }
 
     @Override

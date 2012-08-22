@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NdefMessage {
+public class NdefParsedMessage {
     
     
-    public void add(NdefRecord record) {
+    public void add(NdefParsedRecord record) {
         records.add(record);
     }
     
-    private List<NdefRecord> records = new ArrayList<NdefRecord>();
+    private List<NdefParsedRecord> records = new ArrayList<NdefParsedRecord>();
     
     public int size() {
         return records.size();
     }
     
-    public NdefRecord getRecord(int ix) {
+    public NdefParsedRecord getRecord(int ix) {
         return records.get(ix);
     }
     
-    public List<NdefRecord> getRecords() {
+    public List<NdefParsedRecord> getRecords() {
         return Collections.unmodifiableList(records);
     }
     

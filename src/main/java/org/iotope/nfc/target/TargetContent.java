@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.iotope.nfc.ndef.NdefMessage;
+import org.iotope.nfc.ndef.NdefParsedMessage;
 
 public class TargetContent {
     
@@ -30,7 +30,7 @@ public class TargetContent {
         list.add(new ByteBlock(type, content));
     }
     
-    public void add(ContentType type, NdefMessage content) {
+    public void add(ContentType type, NdefParsedMessage content) {
         list.add(new NdefBlock(type, content));
     }
     

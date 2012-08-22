@@ -6,10 +6,10 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.iotope.nfc.ndef.NdefMessage;
+import org.iotope.nfc.ndef.NdefParsedMessage;
 import org.iotope.nfc.ndef.NdefRTDURI;
 import org.iotope.nfc.ndef.NdefReader;
-import org.iotope.nfc.ndef.NdefRecord;
+import org.iotope.nfc.ndef.NdefParsedRecord;
 import org.iotope.nfc.reader.ReaderChannel;
 import org.iotope.nfc.reader.pn532.PN532InDataExchange;
 import org.iotope.nfc.reader.pn532.PN532InDataExchangeResponse;
@@ -68,12 +68,12 @@ public class NfcType2 {
                     byte[] ndefBuffer = new byte[tlvL];
                     buffer.get(ndefBuffer);
                     NdefReader ndefReader = new NdefReader(ndefBuffer);
-                    NdefMessage ndefMessage = ndefReader.parse();
+                    NdefParsedMessage ndefMessage = ndefReader.parse();
                     // Special handling for Touchatag tag:
                     // because it doesn't comply to the Type 2 layout
                     // It only has a TLV block for the NDEF message
                     if ((tlvC == 0) && (ndefMessage.size() == 1)) {
-                        NdefRecord record = ndefMessage.getRecord(0);
+                        NdefParsedRecord record = ndefMessage.getRecord(0);
                         if (record instanceof NdefRTDURI) {
                             URI uri = ((NdefRTDURI) record).getURI();
                             if ("www.ttag.be".equals(uri.getHost())) {

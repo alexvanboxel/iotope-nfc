@@ -1,8 +1,8 @@
 package org.iotope.nfc.ndef;
 
-public abstract class NdefRecord {
+public abstract class NdefParsedRecord {
     
-    public NdefRecord(byte[] payload) {
+    public NdefParsedRecord(byte[] id,byte[] payload) {
         this.payload = payload;
     }
 
@@ -13,6 +13,8 @@ public abstract class NdefRecord {
     abstract public String getContent();
     
     abstract public String getRTD();
+    
+    protected byte[] id;
     
     protected byte[] payload;
     

@@ -32,10 +32,14 @@ public class IOUtil {
     }
     
     public static String hex(byte[] array) {
+    	return hex(array,array.length);
+    }
+    
+    public static String hex(byte[] array,int length) {
         if (array == null)
             return "[---]";
         String result = "[";
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < length; i++) {
             if (i > 0) {
                 result += " ";
             }
