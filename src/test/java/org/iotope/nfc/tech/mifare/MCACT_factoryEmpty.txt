@@ -1,0 +1,3 @@
+FF FF FF FF FF FF		// KEY A 
+FF  07  80 69			// AC  
+FF FF FF FF FF FF		// KEY B

@@ -4,12 +4,13 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Map;
 
+import org.iotope.nfc.tech.DataIO;
 import org.iotope.util.IOUtil;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableBiMap;
 
-public class MifareClassicAccessCondition {
+public class MifareClassicAccessCondition implements DataIO {
 
 	/**
 	 * <pre>
@@ -188,4 +189,12 @@ public class MifareClassicAccessCondition {
 				" [A] " + IOUtil.hex(keyA) + ",\n" +
 				" [B] " + IOUtil.hex(keyB) + "\n]";
 	}
+
+    public byte[] getKeyA() {
+        return keyA;
+    }
+    
+    public byte[] getKeyB() {
+        return keyB;
+    }
 }
