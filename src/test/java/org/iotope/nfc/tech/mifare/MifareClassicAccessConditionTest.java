@@ -16,27 +16,40 @@ import com.google.common.io.Resources;
 public class MifareClassicAccessConditionTest {
     
     private MifareClassicAccessCondition getAccessConditionAndCheck(String s) throws IOException {
-        String dataAsText = Resources.toString(getClass().getResource("MCACT_"+s+".txt"), Charset.forName("utf8"));
+        String dataAsText = Resources.toString(getClass().getResource("MCACT_"+s+"_input.txt"), Charset.forName("utf8"));
+        String cmpAsText = Resources.toString(getClass().getResource("MCACT_"+s+"_cmp.txt"), Charset.forName("utf8"));
         byte[] inputData = IOUtil.bin2hex(dataAsText);
         
         // Read the Access Conditions
         ByteArrayDataInput dataStreamInput = ByteStreams.newDataInput(inputData);
         MifareClassicAccessCondition mcac = new MifareClassicAccessCondition();
         mcac.read(dataStreamInput);
+
+        // Verify against compare file
+        Assert.assertEquals(cmpAsText.replaceAll("(\\r\\n)", "\n"), mcac.toString());
+
         
         // Write it back and verify
         ByteArrayDataOutput dataStreamOutput = ByteStreams.newDataOutput();
         mcac.write(dataStreamOutput);
         Assert.assertEquals(IOUtil.hex(inputData), IOUtil.hex(dataStreamOutput.toByteArray()));
-
+        
         return mcac;
     }
     
     @Test
     public void factoryEmpty() throws IOException {
-        MifareClassicAccessCondition ac = getAccessConditionAndCheck("factoryEmpty");
-        Assert.assertEquals("[ff ff ff ff ff ff]", IOUtil.hex(ac.getKeyA()));
-        Assert.assertEquals("[ff ff ff ff ff ff]", IOUtil.hex(ac.getKeyB()));
+        getAccessConditionAndCheck("factoryEmpty");
+    }
+
+    @Test
+    public void ndefPublic() throws IOException {
+        getAccessConditionAndCheck("ndefPublic");
+    }
+
+    @Test
+    public void mad() throws IOException {
+        getAccessConditionAndCheck("mad");
     }
 
     

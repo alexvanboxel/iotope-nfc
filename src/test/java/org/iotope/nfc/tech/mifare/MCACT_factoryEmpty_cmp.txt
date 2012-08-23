@@ -1,0 +1,9 @@
+MifareClassicAccessCondition [
+ [0] AccessDataBlock [R=KEY_AB, W=KEY_AB, I=KEY_AB, D=KEY_AB],
+ [1] AccessDataBlock [R=KEY_AB, W=KEY_AB, I=KEY_AB, D=KEY_AB],
+ [2] AccessDataBlock [R=KEY_AB, W=KEY_AB, I=KEY_AB, D=KEY_AB],
+ [3] AccessSectorTrailer [KeyA: R=NEVER W=KEY_A, AC: R=KEY_A W=KEY_A, KeyB: R=NEVER, W=KEY_A],
+ USR [69],
+ [A] [ff ff ff ff ff ff],
+ [B] [ff ff ff ff ff ff]
+]
