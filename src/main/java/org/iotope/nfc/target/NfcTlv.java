@@ -1,12 +1,16 @@
 package org.iotope.nfc.target;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.iotope.nfc.ndef.NdefParsedMessage;
+import org.iotope.nfc.tech.DataIO;
 
-public class TargetContent {
+public class NfcTlv implements DataIO {
     
     public enum TagType {
         LEGACY, // Legacy Touchatag tag
@@ -22,16 +26,16 @@ public class TargetContent {
         return list.size();
     }
     
-    public Block get(int ix) {
+    public TlvBlock get(int ix) {
         return list.get(ix);
     }
     
     public void add(ContentType type, byte[] content) {
-        list.add(new ByteBlock(type, content));
+        list.add(new TlvByteBlock(type, content));
     }
     
     public void add(ContentType type, NdefParsedMessage content) {
-        list.add(new NdefBlock(type, content));
+        list.add(new TlvNdefBlock(type, content));
     }
     
     public void setTagType(TagType tagType) {
@@ -42,14 +46,26 @@ public class TargetContent {
         return tagType;
     }
 
-    public List<Block> getBlocks() {
+    public List<TlvBlock> getBlocks() {
         return Collections.unmodifiableList(list);
     }
 
-    public Block getBlock(int ix) {
+    public TlvBlock getBlock(int ix) {
         return list.get(ix);
     }
 
-    private List<Block> list = new ArrayList<Block>();
+    private List<TlvBlock> list = new ArrayList<TlvBlock>();
     private TagType tagType = TagType.GENERIC;
+
+    @Override
+    public void read(DataInput input) throws IOException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void write(DataOutput output) throws IOException {
+        // TODO Auto-generated method stub
+        
+    }
 }

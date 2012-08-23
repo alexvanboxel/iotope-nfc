@@ -1,11 +1,11 @@
 package org.iotope.nfc.target;
 
-import org.iotope.nfc.target.TargetContent.ContentType;
+import org.iotope.nfc.target.NfcTlv.ContentType;
 
-public class Block {
+public class TlvBlock {
     protected ContentType type;
     
-    public Block() {
+    public TlvBlock() {
     }
     
     public ContentType getType() {

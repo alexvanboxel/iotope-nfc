@@ -1,12 +1,12 @@
 package org.iotope.nfc.target;
 
 import org.iotope.nfc.ndef.NdefParsedMessage;
-import org.iotope.nfc.target.TargetContent.ContentType;
+import org.iotope.nfc.target.NfcTlv.ContentType;
 
-public class NdefBlock extends Block {
+public class TlvNdefBlock extends TlvBlock {
     private NdefParsedMessage ndef;
     
-    NdefBlock(ContentType type, NdefParsedMessage content) {
+    TlvNdefBlock(ContentType type, NdefParsedMessage content) {
         this.type = type;
         this.ndef = content;
     }

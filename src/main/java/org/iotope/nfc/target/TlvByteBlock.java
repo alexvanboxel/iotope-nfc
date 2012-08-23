@@ -1,11 +1,11 @@
 package org.iotope.nfc.target;
 
-import org.iotope.nfc.target.TargetContent.ContentType;
+import org.iotope.nfc.target.NfcTlv.ContentType;
 
-public class ByteBlock extends Block {
+public class TlvByteBlock extends TlvBlock {
     private byte[] content;
     
-    ByteBlock(ContentType type, byte[] content) {
+    TlvByteBlock(ContentType type, byte[] content) {
         this.type = type;
         this.content = content;
     }
