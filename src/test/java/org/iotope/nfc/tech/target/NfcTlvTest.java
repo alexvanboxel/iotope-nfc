@@ -19,7 +19,7 @@ public class NfcTlvTest {
     
     private NfcTlv getNfcTlvAndCheck(String s) throws IOException {
         String dataAsText = Resources.toString(getClass().getResource("TLV_" + s + "_input.txt"), Charset.forName("utf8"));
-        //        String cmpAsText = Resources.toString(getClass().getResource("TLV_" +s+"_cmp.txt"), Charset.forName("utf8"));
+        String cmpAsText = Resources.toString(getClass().getResource("TLV_" +s+"_cmp.txt"), Charset.forName("utf8"));
         byte[] inputData = IOUtil.bin2hex(dataAsText);
         
         // Read the Access Conditions
@@ -28,32 +28,32 @@ public class NfcTlvTest {
         tlv.read(dataStreamInput);
         
         // Verify against compare file
-        //        Assert.assertEquals(cmpAsText.replaceAll("(\\r\\n)", "\n"), mcac.toString());
+               Assert.assertEquals(cmpAsText.replaceAll("(\\r\\n)", "\n"), tlv.toString());
         
-        // Write it back and verify
-        ByteArrayDataOutput dataStreamOutput = ByteStreams.newDataOutput();
-        tlv.write(dataStreamOutput);
-        Assert.assertEquals(IOUtil.hex(inputData), IOUtil.hex(dataStreamOutput.toByteArray()));
+//        // Write it back and verify
+//        ByteArrayDataOutput dataStreamOutput = ByteStreams.newDataOutput();
+//        tlv.write(dataStreamOutput);
+//        Assert.assertEquals(IOUtil.hex(inputData), IOUtil.hex(dataStreamOutput.toByteArray()));
         return tlv;
     }
     
     @Test
-    public void ultralighEmpty() throws IOException {
-        getNfcTlvAndCheck("ultralighEmpty");
+    public void blockEmpty() throws IOException {
+        getNfcTlvAndCheck("blockEmpty");
     }
     
     @Test
-    public void ultralighText() throws IOException {
-        getNfcTlvAndCheck("ultralightText");
+    public void blockText() throws IOException {
+        getNfcTlvAndCheck("blockText");
     }
     
     @Test
-    public void ultralighUrl() throws IOException {
-        getNfcTlvAndCheck("ultralightUrl");
+    public void blockUrl() throws IOException {
+        getNfcTlvAndCheck("blockUrl");
     }
     
     @Test
-    public void ultralighTTag() throws IOException {
-        getNfcTlvAndCheck("ultralightTTag");
+    public void blockTTag() throws IOException {
+        getNfcTlvAndCheck("blockTTag");
     }
 }

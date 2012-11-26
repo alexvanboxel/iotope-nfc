@@ -1,0 +1,1 @@
+[NDEF: [RTD: urn:nfc:wkt:U, uri:http://www.ttag.be/m/04987AB9212580]][LEGACY_HASH: [06 c5 b1 ca d5 a2 83 c0 5b 7c c1 5b fd]][MEMORY_RW_BLOCK: [00 00 00 00]]

@@ -2,7 +2,7 @@ package org.iotope.nfc.target;
 
 import org.iotope.nfc.target.NfcTlv.ContentType;
 
-public class TlvBlock {
+public abstract class TlvBlock {
     protected ContentType type;
     
     public TlvBlock() {

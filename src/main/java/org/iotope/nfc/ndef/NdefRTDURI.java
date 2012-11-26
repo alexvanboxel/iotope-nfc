@@ -101,4 +101,9 @@ public class NdefRTDURI extends NdefParsedRecord {
     public byte[] getType() {
         return new byte[] { 'U' };
     }
+    
+    @Override
+    public String toString() {
+        return "RTD: " + getRTD() + ", uri:" + uri.toString();
+    }
 }

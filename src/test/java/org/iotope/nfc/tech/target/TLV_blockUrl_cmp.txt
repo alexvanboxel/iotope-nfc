@@ -1,0 +1,1 @@
+[NDEF: [RTD: urn:nfc:wkt:U, uri:http://alex.vanboxel.be]]

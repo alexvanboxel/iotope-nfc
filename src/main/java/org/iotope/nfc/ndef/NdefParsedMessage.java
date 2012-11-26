@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.iotope.nfc.target.TlvBlock;
 import org.iotope.nfc.tech.DataIO;
 
 import com.google.common.base.Charsets;
@@ -39,6 +40,17 @@ public class NdefParsedMessage implements DataIO {
         return Collections.unmodifiableList(records);
     }
 
+
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        for(NdefParsedRecord record : records) {
+            buffer.append('[');
+            buffer.append(record.toString());
+            buffer.append(']');
+        }
+        return buffer.toString();
+}
 
     @Override
     public void read(DataInput ndefBuffer) throws IOException {

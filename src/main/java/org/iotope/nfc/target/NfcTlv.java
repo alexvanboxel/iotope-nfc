@@ -107,15 +107,11 @@ public class NfcTlv implements DataIO {
                                 buf = new byte[4];
                                 buffer.readFully(buf);
                                 add(ContentType.MEMORY_RW_BLOCK, buf);
-//                                add(ContentType.LEGACY_TAGDATA, content);
                                 return;
                             }
-                            else {
-                                add(ContentType.NDEF, ndefMessage);
-                            }
                         }
-                        // 
                     }
+                    add(ContentType.NDEF, ndefMessage);
                     break;
                 case (byte) 0xFD: // 2.3.5 Proprietary TLV
                     tlvLength = buffer.readByte();
@@ -155,4 +151,17 @@ public class NfcTlv implements DataIO {
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        for(TlvBlock block : list) {
+            buffer.append('[');
+            buffer.append(block.toString());
+            buffer.append(']');
+        }
+        return buffer.toString();
+    }
+    
+    
 }

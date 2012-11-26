@@ -1,0 +1,1 @@
+[NDEF: [RTD: urn:nfc:wkt:T, language:en, text:This is a text message. ]]
