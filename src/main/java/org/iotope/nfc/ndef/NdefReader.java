@@ -11,11 +11,6 @@ import com.google.common.io.ByteStreams;
 
 public class NdefReader {
 
-	static final Map<String, Class<? extends NdefParsedRecord>> parsableWellKnown;
-	static {
-		parsableWellKnown = new HashMap<String, Class<? extends NdefParsedRecord>>();
-		parsableWellKnown.put(NdefRTDURI.TYPE, NdefRTDURI.class);
-	}
 
 	static void parseMessageFromByteArray(byte[] buffer) {
 		

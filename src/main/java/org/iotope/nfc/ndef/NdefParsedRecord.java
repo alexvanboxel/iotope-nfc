@@ -2,21 +2,31 @@ package org.iotope.nfc.ndef;
 
 public abstract class NdefParsedRecord {
     
-    public NdefParsedRecord(byte[] id,byte[] payload) {
+    public NdefParsedRecord(byte[] id, byte[] payload) {
         this.payload = payload;
     }
-
+    
     abstract public int getLength();
     
-    abstract public String getId();
-
+    public final String getId() {
+        return null;
+    }
+    
+    public final byte[] getIdAsByteArray() {
+        return this.id;
+    }
+    
+    
     abstract public String getContent();
     
     abstract public String getRTD();
     
-    protected byte[] id;
+    abstract public byte[] getType();
+    
+    private byte[] id;
     
     protected byte[] payload;
+    
     
     public byte[] getPayload() {
         return payload;
@@ -25,4 +35,6 @@ public abstract class NdefParsedRecord {
     public Object getRepresentation() {
         return getPayload();
     }
+    
+    abstract NdefTypeNameFormat getTypeNameFormat();
 }

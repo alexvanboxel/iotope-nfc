@@ -49,6 +49,8 @@ public class NfcType2 {
         NfcTlv tagContent = new NfcTlv();
         try {
             byte[] content = read(nfcTag);
+            System.out.println(IOUtil.hex(content));
+            
             ByteBuffer buffer = ByteBuffer.wrap(content);
             // skip the first 16 bytes
             buffer.position(16);

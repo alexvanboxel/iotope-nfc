@@ -15,12 +15,6 @@ public class NdefRTDText extends NdefParsedRecord {
     }
 
     @Override
-    public String getId() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public String getContent() {
         // TODO Auto-generated method stub
         return "";
@@ -29,4 +23,17 @@ public class NdefRTDText extends NdefParsedRecord {
     public String getRTD() {
         return "urn:nfc:wkt:T";
     }
+    
+
+    public NdefTypeNameFormat getTypeNameFormat() {
+        return NdefTypeNameFormat.WellKnownType;
+    }
+    
+    @Override
+    public byte[] getType() {
+        return new byte[] { 'T' };
+    }
+
 }
+
+
